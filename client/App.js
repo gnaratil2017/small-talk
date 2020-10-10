@@ -1,18 +1,8 @@
-import 'react-native-gesture-handler'
-import React from 'react'
-import {
-  StyleSheet,
-  StatusBar,
-  View,
-} from 'react-native'
+import 'react-native-gesture-handler';
+import React from 'react';
 
-import AppNavigator from './src/navigation/AppNavigator'
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
-  return (
-    <AppNavigator />
-  )
+  return <AppNavigator />;
 }
-
-const styles = StyleSheet.create({
-})
