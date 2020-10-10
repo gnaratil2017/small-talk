@@ -1,18 +1,13 @@
 jobs:
-  test:
-    executor:
-      name: node/default
+  lint:
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
-      - run:
-          command: yarn run test
-          name: Run YARN tests
+      - run: yarn install
+      - run: yarn lint
 orbs:
   node: 'circleci/node@3.0.0'
 version: 2.1
 workflows:
-  test_my_app:
+  build:
     jobs:
-      - test
+      - lint
