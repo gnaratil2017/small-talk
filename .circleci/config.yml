@@ -1,0 +1,14 @@
+jobs:
+  lint:
+    executor: node/default
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn lint
+orbs:
+  node: 'circleci/node@3.0.0'
+version: 2.1
+workflows:
+  build:
+    jobs:
+      - lint
