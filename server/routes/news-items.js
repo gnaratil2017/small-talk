@@ -40,4 +40,16 @@ router.get('/:id', (req, res) => {
     .catch(err => console.log(err))
 })
 
+router.put('/:id', (req, res) => {
+  const newsItemId = req.params.id
+
+  NewsItem.findById(newsItemId)
+    .then(newsItem => {
+      newsItem.tags = [...new Set([...newsItem.tags,...req.body.tags])]
+      return newsItem.save()
+    })
+    .then(result => res.send(result))
+    .catch(err => console.log(err))
+})
+
 module.exports = router
