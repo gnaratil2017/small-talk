@@ -1,26 +1,20 @@
 import {observable, runInAction} from 'mobx';
+import axios from 'axios';
 
 class NewsStore {
   @observable newsItems = [];
 
   async fetchNewsItems() {
     try {
-      const response = await fetch('http://localhost:3000/api/news-items');
-      const newsItems = await response.json();
+      const response = await axios.get('http://localhost:3000/api/news-items');
+      const data = response.data;
       runInAction(() => {
-        this.newsItems = newsItems;
+        this.newsItems = data;
       });
     } catch (e) {
       console.log(e);
     }
-    // console.log(this.newsItems)
   }
-
-  // @action
-  // setNewsItems = (response) => {
-  //   this.newsItems = response.json();
-  //   console.log(this.newsItems)
-  // }
 }
 
 export default new NewsStore();
