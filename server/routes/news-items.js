@@ -52,4 +52,11 @@ router.put('/:id', (req, res) => {
     .catch(err => console.log(err))
 })
 
+router.delete('/', (req, res) => {
+  NewsItem.deleteMany({})
+    .then(result => res.send(result))
+    .catch(err => console.log(err))
+})
+
+
 module.exports = router
