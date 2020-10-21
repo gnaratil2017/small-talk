@@ -40,7 +40,7 @@ export default class ListScreen extends Component {
         <FlatList
           data={newsStore.newsItems}
           renderItem={({item}) => <NewsItem item={item} />}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item.id}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
