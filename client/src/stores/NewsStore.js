@@ -1,5 +1,6 @@
 import {observable, runInAction} from 'mobx';
 import axios from 'axios';
+import NewsItem from './NewsItem';
 
 class NewsStore {
   @observable newsItems = [];
@@ -7,7 +8,7 @@ class NewsStore {
   async fetchNewsItems() {
     try {
       const response = await axios.get('http://localhost:3000/api/news-items');
-      const data = response.data;
+      const data = response.data.map((item) => new NewsItem(item));
       runInAction(() => {
         this.newsItems = data;
       });

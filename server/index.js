@@ -38,7 +38,7 @@ const setData = async (item, localUrl) => {
   try {
     await axios.post(localUrl, {
       source: item.source.name,
-      title: item.title,
+      title: item.title.lastIndexOf(' - ') === -1 ? item.title : item.title.slice(0, item.title.lastIndexOf(' - ')),
       description: item.description,
       url: item.url,
       imageUrl: item.urlToImage,
