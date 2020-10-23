@@ -44,7 +44,7 @@ export default function NewsItem(props) {
         <Text style={styles.source}>
           {item.source}, {moment(item.publishedAt).fromNow()}
         </Text>
-        <Card.Image style={styles.image} source={{uri: item.imageUrl}} />
+        {item.imageUrl && <Card.Image style={styles.image} source={{uri: item.imageUrl}} />}
         <Card.Title style={[styles.title, {color: colors.text}]}>
           {item.title}
         </Card.Title>
