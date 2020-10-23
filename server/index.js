@@ -1,17 +1,16 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const axios = require('axios')
-
 const newsItems = require('./routes/news-items')
+
 const app = express()
 app.use(express.json())
-
 app.use('/api/news-items', newsItems)
 
-require('dotenv').config()
 const port = process.env.PORT || 3000
 
-const url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=a1e2ac3cc41a4e309c8ecfda1b379acf'
+const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_API_KEY}`
 const localUrl = `http://localhost:${port}/api/news-items`
 
 const clearData = async localUrl => {
