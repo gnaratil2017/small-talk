@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "ios": "cd client && yarn ios",
     "dev": "concurrently \"cd server && yarn dev\" \"cd client && yarn start\"",
     "lint": "concurrently \"cd server && eslint .\" \"cd client && yarn lint\"",
     "lint:fix": "concurrently \"cd server && eslint . --fix\" \"cd client && yarn lint --fix\"",

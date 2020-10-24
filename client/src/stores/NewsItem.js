@@ -1,4 +1,5 @@
 import {extendObservable} from 'mobx';
+import NewsCard from '../components/NewsCard';
 
 export default class NewsItem {
   constructor(item) {
@@ -15,6 +16,7 @@ export default class NewsItem {
     } = item;
 
     extendObservable(this, {
+      component: NewsCard,
       id: _id,
       source,
       title,

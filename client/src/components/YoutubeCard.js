@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
-import {Card, Icon} from 'react-native-elements';
+import React from 'react';
+import {TouchableOpacity, View, Text, StyleSheet, Linking} from 'react-native';
+import {Card} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
+import StatisticDisplay from './StatisticDisplay';
 
 moment.updateLocale('en', {
   relativeTime: {
@@ -23,15 +24,18 @@ moment.updateLocale('en', {
   },
 });
 
-export default function NewsItem(props) {
+export default function YoutubeCard(props) {
   const {item} = props;
   const {colors} = useTheme();
-  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() => setIsExpanded(!isExpanded)}>
+      onPress={() =>
+        Linking.openURL(
+          `https://www.youtube.com/watch?v=${item.id}`,
+        ).catch((err) => console.error("Couldn't load page", err))
+      }>
       <Card
         containerStyle={[
           styles.card,
@@ -44,18 +48,21 @@ export default function NewsItem(props) {
         <Text style={styles.source}>
           {item.source}, {moment(item.publishedAt).fromNow()}
         </Text>
-        <Card.Image style={styles.image} source={{uri: item.imageUrl}} />
+        {item.thumbnailUrl && (
+          <Card.Image style={styles.image} source={{uri: item.thumbnailUrl}} />
+        )}
         <Card.Title style={[styles.title, {color: colors.text}]}>
           {item.title}
         </Card.Title>
-        <Text style={[styles.description, {color: colors.text}]}>
-          {isExpanded ? item.content : item.description}
-        </Text>
-        <Icon
-          name={isExpanded ? 'expand-less' : 'expand-more'}
-          type="material"
-          size={50}
-        />
+        <View style={styles.statsRow}>
+          <StatisticDisplay iconName="eye" statistic={item.viewCount} />
+          <StatisticDisplay iconName="thumbs-up" statistic={item.likeCount} />
+          <StatisticDisplay
+            iconName="thumbs-down"
+            statistic={item.dislikeCount}
+          />
+          <StatisticDisplay iconName="comment" statistic={item.commentCount} />
+        </View>
       </Card>
     </TouchableOpacity>
   );
@@ -68,11 +75,10 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 6,
     paddingTop: 5,
-    paddingBottom: 0,
     marginBottom: 10,
   },
   source: {
-    color: '#a9a9a9',
+    color: '#808080',
     paddingBottom: 5,
     fontStyle: 'italic',
     textAlign: 'right',
@@ -84,5 +90,9 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: 10,
   },
-  description: {},
+  statsRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
