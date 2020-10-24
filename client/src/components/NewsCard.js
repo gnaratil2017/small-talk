@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {Dimensions, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {Card, Icon} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
@@ -33,6 +33,12 @@ export default function NewsCard(props) {
       activeOpacity={0.8}
       onPress={() => setIsExpanded(!isExpanded)}>
       <Card
+        wrapperStyle={[styles.wrapper,
+          isExpanded ?
+          {
+            height: Dimensions.get('window').height - 100,
+          } : {
+          }]}
         containerStyle={[
           styles.card,
           {

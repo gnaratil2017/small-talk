@@ -48,7 +48,7 @@ function TabNavigator() {
       tabBarOptions={{
         scrollEnabled: true,
         labelStyle: {fontSize: 12},
-        tabStyle: {width: 100, paddingTop: insets.top},
+        tabStyle: {height: 100, width: 100, paddingTop: insets.top},
       }}>
       {tabNames.map((tabName) => (
         <Tab.Screen key={tabName} name={tabName} component={ListScreen} />
