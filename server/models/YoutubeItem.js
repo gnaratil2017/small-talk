@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const YoutubeItemSchema = new mongoose.Schema({
+  _id: String,
   source: String,
   title: {type: String, required: true},
   thumbnailUrl: String,

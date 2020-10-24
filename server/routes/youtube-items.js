@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.post('/', (req, res) => {
   const youtubeItem = new YoutubeItem({
+    _id: req.body.id,
     source: req.body.source,
     title: req.body.title,
     thumbnailUrl: req.body.thumbnailUrl,

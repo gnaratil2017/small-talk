@@ -13,7 +13,7 @@ app.use('/api/youtube-items', youtubeItems)
 const port = process.env.PORT || 3000
 
 const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_KEY}`
-const youtubeUrl= `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${process.env.YOUTUBE_KEY}`
+const youtubeUrl= `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${process.env.YOUTUBE_KEY}&maxResults=10`
 const localNewsUrl = `http://localhost:${port}/api/news-items`
 const localYoutubeUrl = `http://localhost:${port}/api/youtube-items`
 
@@ -66,9 +66,10 @@ const setYoutubeData = async data => {
     let item = data.items[i]
     try {
       await axios.post(localYoutubeUrl, {
+        id: item.id,
         source: item.snippet.channelTitle,
         title: item.snippet.title,
-        thumbnailUrl: item.snippet.thumbnails.default.url,
+        thumbnailUrl: item.snippet.thumbnails.high.url,
         publishedAt: item.snippet.publishedAt,
         duration: item.contentDetails.duration,
         viewCount: item.statistics.viewCount,
