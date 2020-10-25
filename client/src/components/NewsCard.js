@@ -24,21 +24,26 @@ moment.updateLocale('en', {
 });
 
 export default function NewsCard(props) {
-  const {item} = props;
+  const {item, flatListRef, index} = props;
   const {colors} = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const expandOrCollapse = () => {
+    flatListRef.scrollToIndex({animated: true, index: index, viewPosition: 0});
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => setIsExpanded(!isExpanded)}>
+    <TouchableOpacity activeOpacity={0.8} onPress={() => expandOrCollapse()}>
       <Card
-        wrapperStyle={[styles.wrapper,
-          isExpanded ?
-          {
-            height: Dimensions.get('window').height - 100,
-          } : {
-          }]}
+        wrapperStyle={[
+          styles.wrapper,
+          isExpanded
+            ? {
+                height: Dimensions.get('window').height - 150,
+              }
+            : {},
+        ]}
         containerStyle={[
           styles.card,
           {
@@ -56,7 +61,7 @@ export default function NewsCard(props) {
         <Card.Title style={[styles.title, {color: colors.text}]}>
           {item.title}
         </Card.Title>
-        <Text style={[styles.description, {color: colors.text}]}>
+        <Text style={[styles.text, {color: colors.text}]}>
           {isExpanded ? item.content : item.description}
         </Text>
         <Icon
@@ -92,7 +97,8 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: 10,
   },
-  description: {
+  text: {
     paddingBottom: 5,
+    flex: 1,
   },
 });
