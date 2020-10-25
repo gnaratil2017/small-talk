@@ -43,7 +43,16 @@ export default class ListScreen extends Component {
       return (
         <FlatList
           data={data}
-          renderItem={({item}) => <item.component item={item} />}
+          ref={(ref) => {
+            this.flatListRef = ref;
+          }}
+          renderItem={({item, index}) => (
+            <item.component
+              item={item}
+              flatListRef={this.flatListRef}
+              index={index}
+            />
+          )}
           keyExtractor={(item) => item.id}
           refreshControl={
             <RefreshControl
