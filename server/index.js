@@ -2,19 +2,30 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const axios = require('axios')
+const Twitter = require('twitter');
 const newsItems = require('./routes/news-items')
 const youtubeItems = require('./routes/youtube-items')
+const twitterItems = require('./routes/twitter-items')
 const NewsItem = require('./models/NewsItem')
 const YoutubeItem = require('./models/YoutubeItem')
+const TwitterItem = require('./models/TwitterItem')
 const app = express()
 app.use(express.json())
 app.use('/api/news-items', newsItems)
 app.use('/api/youtube-items', youtubeItems)
+app.use('/api/twitter-items', twitterItems)
 
 const port = process.env.PORT || 3000
 
 const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_KEY}`
 const youtubeUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${process.env.YOUTUBE_KEY}&maxResults=10`
+
+const twitterClient = new Twitter({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+});
 
 const saveNewsData = data => {
   for(let i = 0; i < data.articles.length; i++) {
@@ -53,6 +64,19 @@ const saveYoutubeData = data => {
   }
 }
 
+const saveTwitterData = data => {
+  for(let i = 0; i < 20; i++) {
+    const item = data.trends[i]
+    const twitterItem = new TwitterItem({
+      name: item.name,
+      url: item.url,
+      tweetVolume: item.tweet_volume
+    })
+
+    twitterItem.save().catch(err => console.log(err))
+  }
+}
+
 const urls = {
   [newsUrl]: saveNewsData,
   [youtubeUrl]: saveYoutubeData
@@ -66,9 +90,14 @@ const clearYoutubeData = () => {
   YoutubeItem.deleteMany({}).catch(err => console.log(err))
 }
 
+const clearTwitterData = () => {
+  TwitterItem.deleteMany({}).catch(err => console.log(err))
+}
+
 const clearData = () => {
   clearNewsData()
   clearYoutubeData()
+  clearTwitterData()
 }
 
 const getData = async urls => {
@@ -81,6 +110,11 @@ const getData = async urls => {
       console.log(error)
     }
   }
+  twitterClient.get('trends/place', {id: '23424977'}, (error, tweets, response) => {
+    if(error) throw error
+    const data = JSON.parse(response.body)[0]
+    saveTwitterData(data)
+  })
 }
 
 mongoose.connect('mongodb+srv://user_0:L3CFaKdfbDwzwEbC@cluster0.twlp2.mongodb.net/small-talk?retryWrites=true&w=majority')
