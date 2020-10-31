@@ -8,7 +8,10 @@ import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
   return (
-    <Provider newsStore={NewsStore} youtubeStore={YoutubeStore} twitterStore={TwitterStore}>
+    <Provider
+      newsStore={NewsStore}
+      youtubeStore={YoutubeStore}
+      twitterStore={TwitterStore}>
       <AppNavigator />
     </Provider>
   );

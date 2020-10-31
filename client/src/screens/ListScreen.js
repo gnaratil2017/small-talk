@@ -42,7 +42,11 @@ export default class ListScreen extends Component {
     const {loading, refreshing} = this.state;
 
     if (!loading) {
-      const data = [...newsStore.newsItems, ...youtubeStore.youtubeItems, ...chunk(twitterStore.twitterItems, 2)];
+      const data = [
+        ...newsStore.newsItems,
+        ...youtubeStore.youtubeItems,
+        ...chunk(twitterStore.twitterItems, 2),
+      ];
       this.shuffle(data);
       return (
         <FlatList
@@ -50,16 +54,18 @@ export default class ListScreen extends Component {
           ref={(ref) => {
             this.flatListRef = ref;
           }}
-          renderItem={({item, index}) => (
-            item.length ?
-              <TwitterRow item={item} /> :
+          renderItem={({item, index}) =>
+            item.length ? (
+              <TwitterRow item={item} />
+            ) : (
               <item.component
                 item={item}
                 flatListRef={this.flatListRef}
                 index={index}
               />
-          )}
-          keyExtractor={(item) => item.length ? item[0].id : item.id}
+            )
+          }
+          keyExtractor={(item) => (item.length ? item[0].id : item.id)}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

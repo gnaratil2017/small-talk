@@ -5,7 +5,7 @@ import {useTheme} from '@react-navigation/native';
 import {compact} from 'lodash';
 
 export default function TwitterCard(props) {
-  const {item} = props;
+  const {item, leftSide} = props;
   const {colors} = useTheme();
 
   return (
@@ -13,28 +13,32 @@ export default function TwitterCard(props) {
       style={styles.buttonContainer}
       activeOpacity={0.8}
       onPress={() =>
-        Linking.openURL(
-          item.url,
-        ).catch((err) => console.error("Couldn't load page", err))
+        Linking.openURL(item.url).catch((err) =>
+          console.error("Couldn't load page", err),
+        )
       }>
       <Card
         wrapperStyle={styles.cardWrapper}
         containerStyle={[
           styles.cardContainer,
-          {
-            backgroundColor: '#243447',
-            borderColor: colors.card,
-            shadowColor: colors.text,
-          },
+          leftSide ? styles.leftCard : styles.rightCard,
+          {shadowColor: colors.text},
         ]}>
-        <Card.Title adjustsFontSizeToFit numberOfLines={1} style={{color: colors.text}}>
+        <Card.Title
+          adjustsFontSizeToFit
+          numberOfLines={1}
+          style={{color: colors.text}}>
           {item.name}
         </Card.Title>
         <View style={styles.seeTweets}>
           <Text style={styles.seeTweetsText}>
-            {compact(['See', item.tweetVolume && item.tweetVolume.toLocaleString(), 'tweets']).join(' ')}
+            {compact([
+              'See',
+              item.tweetVolume && item.tweetVolume.toLocaleString(),
+              'tweets',
+            ]).join(' ')}
           </Text>
-          <Icon name='fire' type="font-awesome-5" color="#808080" size={12} />
+          <Icon name="fire" type="font-awesome-5" color="#808080" size={12} />
         </View>
       </Card>
     </TouchableOpacity>
@@ -49,6 +53,8 @@ const styles = StyleSheet.create({
     height: 50,
   },
   cardContainer: {
+    backgroundColor: '#243447',
+    borderColor: '#243447',
     borderRadius: 10,
     shadowOpacity: 0.3,
     shadowOffset: {width: 0, height: 2},
@@ -56,6 +62,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 8,
     paddingRight: 8,
+  },
+  leftCard: {
+    marginRight: 10,
+  },
+  rightCard: {
+    marginLeft: 10,
   },
   seeTweets: {
     flex: 1,
@@ -66,5 +78,5 @@ const styles = StyleSheet.create({
   seeTweetsText: {
     color: '#808080',
     paddingRight: 3,
-  }
+  },
 });
