@@ -27,14 +27,14 @@ export default function TwitterCard(props) {
             shadowColor: colors.text,
           },
         ]}>
-        <Card.Title style={[styles.name, {color: colors.text}]}>
+        <Card.Title adjustsFontSizeToFit numberOfLines={1} style={{color: colors.text}}>
           {item.name}
         </Card.Title>
         <View style={styles.seeTweets}>
           <Text style={styles.seeTweetsText}>
             {compact(['See', item.tweetVolume && item.tweetVolume.toLocaleString(), 'tweets']).join(' ')}
           </Text>
-          <Icon name='chevron-right' type="font-awesome-5" color="#808080" size={12} />
+          <Icon name='fire' type="font-awesome-5" color="#808080" size={12} />
         </View>
       </Card>
     </TouchableOpacity>
@@ -54,9 +54,8 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 6,
     marginBottom: 10,
-  },
-  name: {
-    flex: 1,
+    paddingLeft: 8,
+    paddingRight: 8,
   },
   seeTweets: {
     flex: 1,
@@ -67,6 +66,5 @@ const styles = StyleSheet.create({
   seeTweetsText: {
     color: '#808080',
     paddingRight: 3,
-    paddingBottom: 1,
   }
 });
