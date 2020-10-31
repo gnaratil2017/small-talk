@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {FlatList, RefreshControl, ActivityIndicator} from 'react-native';
 import {inject, observer} from 'mobx-react';
+import {chunk} from 'lodash';
+import TwitterRow from '../components/TwitterRow';
 
-@inject('newsStore', 'youtubeStore')
+@inject('newsStore', 'youtubeStore', 'twitterStore')
 @observer
 export default class ListScreen extends Component {
   constructor(props) {
@@ -16,6 +18,7 @@ export default class ListScreen extends Component {
   componentDidMount() {
     this.props.newsStore.fetchNewsItems();
     this.props.youtubeStore.fetchYoutubeItems();
+    this.props.twitterStore.fetchTwitterItems();
     this.setState({loading: false});
   }
 
@@ -23,6 +26,7 @@ export default class ListScreen extends Component {
     this.setState({refreshing: true});
     this.props.newsStore.fetchNewsItems();
     this.props.youtubeStore.fetchYoutubeItems();
+    this.props.twitterStore.fetchTwitterItems();
     this.setState({refreshing: false});
   };
 
@@ -34,11 +38,11 @@ export default class ListScreen extends Component {
   }
 
   render() {
-    const {newsStore, youtubeStore} = this.props;
+    const {newsStore, youtubeStore, twitterStore} = this.props;
     const {loading, refreshing} = this.state;
 
     if (!loading) {
-      const data = [...newsStore.newsItems, ...youtubeStore.youtubeItems];
+      const data = [...newsStore.newsItems, ...youtubeStore.youtubeItems, ...chunk(twitterStore.twitterItems, 2)];
       this.shuffle(data);
       return (
         <FlatList
@@ -47,13 +51,15 @@ export default class ListScreen extends Component {
             this.flatListRef = ref;
           }}
           renderItem={({item, index}) => (
-            <item.component
-              item={item}
-              flatListRef={this.flatListRef}
-              index={index}
-            />
+            item.length ?
+              <TwitterRow item={item} /> :
+              <item.component
+                item={item}
+                flatListRef={this.flatListRef}
+                index={index}
+              />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.length ? item[0].id : item.id}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
