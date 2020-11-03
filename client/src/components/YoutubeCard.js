@@ -2,27 +2,8 @@ import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet, Linking} from 'react-native';
 import {Card} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
-import moment from 'moment';
+import SourceImageTitle from './SourceImageTitle';
 import StatisticDisplay from './StatisticDisplay';
-
-moment.updateLocale('en', {
-  relativeTime: {
-    future: 'in %s',
-    past: '%s ago',
-    s: 'seconds',
-    ss: '%ss',
-    m: 'a minute',
-    mm: '%dm',
-    h: 'an hour',
-    hh: '%dh',
-    d: 'a day',
-    dd: '%dd',
-    M: 'a month',
-    MM: '%dM',
-    y: 'a year',
-    yy: '%dY',
-  },
-});
 
 export default function YoutubeCard(props) {
   const {item} = props;
@@ -45,15 +26,12 @@ export default function YoutubeCard(props) {
             shadowColor: colors.text,
           },
         ]}>
-        <Text style={styles.source}>
-          {item.source}, {moment(item.publishedAt).fromNow()}
-        </Text>
-        {item.thumbnailUrl && (
-          <Card.Image style={styles.image} source={{uri: item.thumbnailUrl}} />
-        )}
-        <Card.Title style={[styles.title, {color: colors.text}]}>
-          {item.title}
-        </Card.Title>
+        <SourceImageTitle
+          source={item.source}
+          publishedAt={item.publishedAt}
+          imageUrl={item.thumbnailUrl}
+          title={item.title}
+        />
         <View style={styles.statsRow}>
           <StatisticDisplay iconName="eye" statistic={item.viewCount} />
           <StatisticDisplay iconName="thumbs-up" statistic={item.likeCount} />
@@ -76,19 +54,6 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     paddingTop: 5,
     marginBottom: 10,
-  },
-  source: {
-    color: '#808080',
-    paddingBottom: 5,
-    fontStyle: 'italic',
-    textAlign: 'right',
-  },
-  image: {
-    borderRadius: 5,
-    padding: 0,
-  },
-  title: {
-    paddingTop: 10,
   },
   statsRow: {
     flex: 1,

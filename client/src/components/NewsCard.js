@@ -2,26 +2,7 @@ import React, {useState} from 'react';
 import {Dimensions, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {Card, Icon} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
-import moment from 'moment';
-
-moment.updateLocale('en', {
-  relativeTime: {
-    future: 'in %s',
-    past: '%s ago',
-    s: 'seconds',
-    ss: '%ss',
-    m: 'a minute',
-    mm: '%dm',
-    h: 'an hour',
-    hh: '%dh',
-    d: 'a day',
-    dd: '%dd',
-    M: 'a month',
-    MM: '%dM',
-    y: 'a year',
-    yy: '%dY',
-  },
-});
+import SourceImageTitle from './SourceImageTitle';
 
 export default function NewsCard(props) {
   const {item, flatListRef, index} = props;
@@ -52,15 +33,12 @@ export default function NewsCard(props) {
             shadowColor: colors.text,
           },
         ]}>
-        <Text style={styles.source}>
-          {item.source}, {moment(item.publishedAt).fromNow()}
-        </Text>
-        {item.imageUrl && (
-          <Card.Image style={styles.image} source={{uri: item.imageUrl}} />
-        )}
-        <Card.Title style={[styles.title, {color: colors.text}]}>
-          {item.title}
-        </Card.Title>
+        <SourceImageTitle
+          source={item.source}
+          publishedAt={item.publishedAt}
+          imageUrl={item.imageUrl}
+          title={item.title}
+        />
         <Text style={[styles.text, {color: colors.text}]}>
           {isExpanded ? item.content : item.description}
         </Text>
@@ -83,19 +61,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     marginBottom: 10,
-  },
-  source: {
-    color: '#808080',
-    paddingBottom: 5,
-    fontStyle: 'italic',
-    textAlign: 'right',
-  },
-  image: {
-    borderRadius: 5,
-    padding: 0,
-  },
-  title: {
-    paddingTop: 10,
   },
   text: {
     paddingBottom: 5,
