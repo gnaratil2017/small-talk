@@ -34,7 +34,7 @@ export default function SourceImageTitle(props) {
       </Text>
       {imageUrl ? (
         <Card.Image style={styles.image} source={{uri: imageUrl}} />
-      ): null}
+      ) : null}
       <Card.Title style={[styles.title, {color: colors.text}]}>
         {title}
       </Card.Title>

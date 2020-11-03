@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, StyleSheet, Linking} from 'react-native';
+import {TouchableOpacity, View, StyleSheet, Linking} from 'react-native';
 import {Card} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import SourceImageTitle from './SourceImageTitle';
