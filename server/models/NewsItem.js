@@ -4,11 +4,11 @@ const NewsItemSchema = new mongoose.Schema({
   source: String,
   title: {type: String, required: true},
   description: String,
-  url: String,
+  url: {type: String, unique: true},
   imageUrl: String,
   publishedAt: String,
   content: String,
   tags: [String]
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model('NewsItem', NewsItemSchema)

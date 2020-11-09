@@ -16,7 +16,7 @@ import ListScreen from '../screens/ListScreen';
 const Tab = createMaterialTopTabNavigator();
 
 const tabNames = [
-  'all',
+  'hot',
   'family-friendly',
   'NSFW',
   'humorous',
@@ -47,8 +47,8 @@ function TabNavigator() {
     <Tab.Navigator
       tabBarOptions={{
         scrollEnabled: true,
-        labelStyle: {fontSize: 12},
-        tabStyle: {height: 100, width: 100, paddingTop: insets.top},
+        labelStyle: {textTransform: 'none'},
+        tabStyle: {height: 100, width: 110, paddingTop: insets.top},
       }}>
       {tabNames.map((tabName) => (
         <Tab.Screen key={tabName} name={tabName} component={ListScreen} />

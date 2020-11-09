@@ -10,7 +10,8 @@ const YoutubeItemSchema = new mongoose.Schema({
   viewCount: Number,
   likeCount: Number,
   dislikeCount: Number,
-  commentCount: Number
-})
+  commentCount: Number,
+  tags: [String]
+}, { timestamps: true })
 
 module.exports = mongoose.model('YoutubeItem', YoutubeItemSchema)

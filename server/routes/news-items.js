@@ -40,6 +40,22 @@ router.get('/:id', (req, res) => {
     .catch(err => console.log(err))
 })
 
+router.get('/:date', (req, res) => {
+  const date = req.params.date
+
+  NewsItem.find({createdAt: {$gte: date}})
+    .then(newsItems => res.send(newsItems))
+    .catch(err => console.log(err))
+})
+
+router.get('/:tag', (req, res) => {
+  const tag = req.params.tag
+
+  NewsItem.find({tags: {$in: tag}})
+    .then(newsItems => res.send(newsItems))
+    .catch(err => console.log(err))
+})
+
 router.put('/:id', (req, res) => {
   const newsItemId = req.params.id
 
