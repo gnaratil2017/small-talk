@@ -16,17 +16,17 @@ export default class ListScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.newsStore.fetchNewsItems();
-    this.props.youtubeStore.fetchYoutubeItems();
-    this.props.twitterStore.fetchTwitterItems();
+    this.props.newsStore.fetchRecentNewsItems();
+    this.props.youtubeStore.fetchRecentYoutubeItems();
+    this.props.twitterStore.fetchRecentTwitterItems();
     this.setState({loading: false});
   }
 
   onRefresh = () => {
     this.setState({refreshing: true});
-    this.props.newsStore.fetchNewsItems();
-    this.props.youtubeStore.fetchYoutubeItems();
-    this.props.twitterStore.fetchTwitterItems();
+    this.props.newsStore.fetchRecentNewsItems();
+    this.props.youtubeStore.fetchRecentYoutubeItems();
+    this.props.twitterStore.fetchRecentTwitterItems();
     this.setState({refreshing: false});
   };
 

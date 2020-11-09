@@ -34,6 +34,22 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
+router.get('/:date', (req, res) => {
+  const date = req.params.date
+
+  YoutubeItem.find({createdAt: {$gte: date}})
+    .then(youtubeItems => res.send(youtubeItems))
+    .catch(err => console.log(err))
+})
+
+router.get('/:tag', (req, res) => {
+  const tag = req.params.tag
+
+  YoutubeItem.find({tags: {$in: tag}})
+    .then(youtubeItems => res.send(youtubeItems))
+    .catch(err => console.log(err))
+})
+
 router.delete('/', (req, res) => {
   YoutubeItem.deleteMany({})
     .then(result => res.send(result))

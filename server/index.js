@@ -2,7 +2,9 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const axios = require('axios')
-const Twitter = require('twitter');
+const schedule = require('node-schedule')
+const moment = require('moment')
+const Twitter = require('twitter')
 const newsItems = require('./routes/news-items')
 const youtubeItems = require('./routes/youtube-items')
 const twitterItems = require('./routes/twitter-items')
@@ -82,25 +84,25 @@ const urls = {
   [youtubeUrl]: saveYoutubeData
 }
 
-const clearNewsData = () => {
-  NewsItem.deleteMany({}).catch(err => console.log(err))
+const deleteNewsDataBeforeDate = (date) => {
+  NewsItem.deleteMany({createdAt: {$lte: date}}).catch(err => console.log(err))
 }
 
-const clearYoutubeData = () => {
-  YoutubeItem.deleteMany({}).catch(err => console.log(err))
+const deleteYoutubeDataBeforeDate = (date) => {
+  YoutubeItem.deleteMany({createdAt: {$lte: date}}).catch(err => console.log(err))
 }
 
-const clearTwitterData = () => {
-  TwitterItem.deleteMany({}).catch(err => console.log(err))
+const deleteTwitterDataBeforeDate = (date) => {
+  TwitterItem.deleteMany({createdAt: {$lte: date}}).catch(err => console.log(err))
 }
 
-const clearData = () => {
-  clearNewsData()
-  clearYoutubeData()
-  clearTwitterData()
+const deleteDataBeforeDate = (date) => {
+  deleteNewsDataBeforeDate(date)
+  deleteYoutubeDataBeforeDate(date)
+  deleteTwitterDataBeforeDate(date)
 }
 
-const getData = async urls => {
+const getRecentData = async urls => {
   for (const url in urls) {
     try {
       const response = await axios.get(url)
@@ -120,7 +122,11 @@ const getData = async urls => {
 mongoose.connect('mongodb+srv://user_0:L3CFaKdfbDwzwEbC@cluster0.twlp2.mongodb.net/small-talk?retryWrites=true&w=majority')
   .then(result => {
     app.listen(port, () => console.log(`Server is running on port ${port}`))
-    clearData()
-    getData(urls)
   })
   .catch(err => console.log(err))
+
+schedule.scheduleJob('0 8 * * *', async () => {
+  console.log('fetching data 8am every day')
+  deleteDataBeforeDate(moment().subtract(6, 'days').toDate())
+  getRecentData(urls)
+})

@@ -27,6 +27,22 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
+router.get('/:date', (req, res) => {
+  const date = req.params.date
+
+  TwitterItem.find({createdAt: {$gte: date}})
+    .then(twitterItems => res.send(twitterItems))
+    .catch(err => console.log(err))
+})
+
+router.get('/:tag', (req, res) => {
+  const tag = req.params.tag
+
+  TwitterItem.find({tags: {$in: tag}})
+    .then(twitterItems => res.send(twitterItems))
+    .catch(err => console.log(err))
+})
+
 router.delete('/', (req, res) => {
   TwitterItem.deleteMany({})
     .then(result => res.send(result))
