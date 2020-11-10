@@ -29,7 +29,17 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  YoutubeItem.find()
+  const {tag, date} = req.query
+  query = {}
+
+  if (tag) {
+    query['tags'] = {$in: tag}
+  }
+  if (date) {
+    query['createdAt'] = {$gte: date}
+  }
+
+  YoutubeItem.find(query)
     .then(youtubeItems => res.send(youtubeItems))
     .catch(err => console.log(err))
 })
