@@ -22,7 +22,17 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  TwitterItem.find()
+  const {tag, date} = req.query
+  query = {}
+
+  if (tag) {
+    query['tags'] = {$in: tag}
+  }
+  if (date) {
+    query['createdAt'] = {$gte: date}
+  }
+
+  TwitterItem.find(query)
     .then(twitterItems => res.send(twitterItems))
     .catch(err => console.log(err))
 })

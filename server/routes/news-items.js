@@ -27,7 +27,17 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  NewsItem.find()
+  const {tag, date} = req.query
+  query = {}
+
+  if (tag) {
+    query['tags'] = {$in: tag}
+  }
+  if (date) {
+    query['createdAt'] = {$gte: date}
+  }
+
+  NewsItem.find(query)
     .then(newsItems => res.send(newsItems))
     .catch(err => console.log(err))
 })
@@ -37,22 +47,6 @@ router.get('/:id', (req, res) => {
 
   NewsItem.findById(newsItemId)
     .then(newsItem => res.send(newsItem))
-    .catch(err => console.log(err))
-})
-
-router.get('/:date', (req, res) => {
-  const date = req.params.date
-
-  NewsItem.find({createdAt: {$gte: date}})
-    .then(newsItems => res.send(newsItems))
-    .catch(err => console.log(err))
-})
-
-router.get('/:tag', (req, res) => {
-  const tag = req.params.tag
-
-  NewsItem.find({tags: {$in: tag}})
-    .then(newsItems => res.send(newsItems))
     .catch(err => console.log(err))
 })
 

@@ -10,7 +10,11 @@ export default function NewsCard(props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const expandOrCollapse = () => {
-    flatListRef.scrollToIndex({animated: true, index: index, viewPosition: 0});
+    flatListRef.current.scrollToIndex({
+      animated: true,
+      index: index,
+      viewPosition: 0,
+    });
     setIsExpanded(!isExpanded);
   };
 
