@@ -20,6 +20,7 @@ app.use('/api/youtube-items', youtubeItems)
 app.use('/api/twitter-items', twitterItems)
 
 const port = process.env.PORT || 3000
+const mongoUri = process.env.MONGODB_URI || `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.twlp2.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
 
 const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_KEY}`
 const youtubeUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${process.env.YOUTUBE_KEY}&maxResults=10`
@@ -121,7 +122,7 @@ const getRecentData = async urls => {
   })
 }
 
-mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.twlp2.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+mongoose.connect(mongoUri,
   {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
   .then(result => {
     app.listen(port, () => console.log(`Server is running on port ${port}`))
