@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const axios = require('axios')
 const schedule = require('node-schedule')
 const moment = require('moment')
@@ -12,6 +13,7 @@ const NewsItem = require('./models/NewsItem')
 const YoutubeItem = require('./models/YoutubeItem')
 const TwitterItem = require('./models/TwitterItem')
 const app = express()
+app.use(cors())
 app.use(express.json())
 app.use('/api/news-items', newsItems)
 app.use('/api/youtube-items', youtubeItems)
@@ -119,7 +121,8 @@ const getRecentData = async urls => {
   })
 }
 
-mongoose.connect('mongodb+srv://user_0:L3CFaKdfbDwzwEbC@cluster0.twlp2.mongodb.net/small-talk?retryWrites=true&w=majority')
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.twlp2.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+  {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
   .then(result => {
     app.listen(port, () => console.log(`Server is running on port ${port}`))
   })
