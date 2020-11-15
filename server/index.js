@@ -119,7 +119,8 @@ const getRecentData = async urls => {
   })
 }
 
-mongoose.connect('mongodb+srv://user_0:L3CFaKdfbDwzwEbC@cluster0.twlp2.mongodb.net/small-talk?retryWrites=true&w=majority')
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.twlp2.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+  {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
   .then(result => {
     app.listen(port, () => console.log(`Server is running on port ${port}`))
   })
