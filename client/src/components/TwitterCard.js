@@ -8,15 +8,20 @@ export default function TwitterCard(props) {
   const {item, leftSide} = props;
   const {colors} = useTheme();
 
+  const openLink = () => {
+    const appUrl = `twitter://search?query=${item.url.substring(
+      item.url.indexOf('=') + 1,
+    )}`;
+    Linking.canOpenURL(appUrl)
+      .then((supported) => Linking.openURL(supported ? appUrl : item.url))
+      .catch((err) => console.error("Couldn't load page", err));
+  };
+
   return (
     <TouchableOpacity
       style={styles.buttonContainer}
       activeOpacity={0.8}
-      onPress={() =>
-        Linking.openURL(item.url).catch((err) =>
-          console.error("Couldn't load page", err),
-        )
-      }>
+      onPress={() => openLink()}>
       <Card
         wrapperStyle={styles.cardWrapper}
         containerStyle={[
