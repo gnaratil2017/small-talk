@@ -8,7 +8,9 @@ export default function StatisticDisplay(props) {
   return (
     <View style={styles.row}>
       <Icon name={iconName} type="font-awesome-5" color="#808080" size={20} />
-      <Text style={styles.text}>{statistic.toLocaleString()}</Text>
+      <Text style={[styles.text, !statistic ? styles.disabled : undefined]}>
+        {statistic ? statistic.toLocaleString() : 'disabled'}
+      </Text>
     </View>
   );
 }
@@ -21,5 +23,8 @@ const styles = StyleSheet.create({
   text: {
     color: '#808080',
     paddingLeft: 2,
+  },
+  disabled: {
+    fontStyle: 'italic',
   },
 });

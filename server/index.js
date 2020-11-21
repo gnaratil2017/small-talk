@@ -129,7 +129,7 @@ mongoose.connect(mongoUri,
   })
   .catch(err => console.log(err))
 
-schedule.scheduleJob('0 8 * * *', async () => {
+schedule.scheduleJob('10 13 * * *', async () => {
   console.log('fetching data 8am every day')
   deleteDataBeforeDate(moment().subtract(6, 'days').toDate())
   getRecentData(urls)
