@@ -1,21 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TouchableOpacity, View, StyleSheet, Linking} from 'react-native';
 import {Card} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
+import {inject, observer} from 'mobx-react';
+import RatingsModal from './RatingsModal';
 import SourceImageTitle from './SourceImageTitle';
 import StatisticDisplay from './StatisticDisplay';
 
-export default function YoutubeCard(props) {
-  const {item} = props;
+function YoutubeCard(props) {
+  const {item, uiStore} = props;
   const {colors} = useTheme();
 
   return (
+    <View>
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() =>
-        Linking.openURL(
-          `https://www.youtube.com/watch?v=${item.id}`,
-        ).catch((err) => console.error("Couldn't load page", err))
+        // Linking.openURL(
+        //   `https://www.youtube.com/watch?v=${item.id}`,
+        // ).catch((err) => console.error("Couldn't load page", err))
+        uiStore.setModalVisible(true)
       }>
       <Card
         containerStyle={[
@@ -43,6 +47,8 @@ export default function YoutubeCard(props) {
         </View>
       </Card>
     </TouchableOpacity>
+    <RatingsModal />
+    </View>
   );
 }
 
@@ -61,3 +67,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
+
+export default inject('uiStore')(observer(YoutubeCard))
