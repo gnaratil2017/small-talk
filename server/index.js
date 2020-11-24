@@ -73,7 +73,7 @@ const saveTwitterData = data => {
   for(let i = 0; i < 20; i++) {
     const item = data.trends[i]
     const twitterItem = new TwitterItem({
-      name: item.name,
+      title: item.name,
       url: item.url,
       tweetVolume: item.tweet_volume
     })
@@ -129,7 +129,7 @@ mongoose.connect(mongoUri,
   })
   .catch(err => console.log(err))
 
-schedule.scheduleJob('10 13 * * *', async () => {
+schedule.scheduleJob('0 8 * * *', async () => {
   console.log('fetching data 8am every day')
   deleteDataBeforeDate(moment().subtract(6, 'days').toDate())
   getRecentData(urls)

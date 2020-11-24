@@ -1,26 +1,33 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {TouchableOpacity, View, StyleSheet, Linking} from 'react-native';
 import {Card} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import {inject, observer} from 'mobx-react';
-import RatingsModal from './RatingsModal';
 import SourceImageTitle from './SourceImageTitle';
 import StatisticDisplay from './StatisticDisplay';
 
 function YoutubeCard(props) {
-  const {item, uiStore} = props;
+  const {item, uiStore, selectedItemStore} = props;
   const {colors} = useTheme();
+
+  const openLink = () => {
+    Linking.openURL(
+      `https://www.youtube.com/watch?v=${item.id}`,
+    ).catch((err) => console.error("Couldn't load page", err))
+  }
+
+  const openModal = () => {
+    selectedItemStore.setSelectedItem(item)
+    uiStore.setModalVisible(true)
+  }
 
   return (
     <View>
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() =>
-        // Linking.openURL(
-        //   `https://www.youtube.com/watch?v=${item.id}`,
-        // ).catch((err) => console.error("Couldn't load page", err))
-        uiStore.setModalVisible(true)
-      }>
+      onPress={() => openLink()}
+      onLongPress={() => openModal()}
+      >
       <Card
         containerStyle={[
           styles.card,
@@ -47,7 +54,6 @@ function YoutubeCard(props) {
         </View>
       </Card>
     </TouchableOpacity>
-    <RatingsModal />
     </View>
   );
 }
@@ -68,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject('uiStore')(observer(YoutubeCard))
+export default inject('uiStore', 'selectedItemStore')(observer(YoutubeCard))

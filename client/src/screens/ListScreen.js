@@ -9,6 +9,7 @@ import {
 import {inject, observer} from 'mobx-react';
 import {chunk} from 'lodash';
 import TwitterRow from '../components/TwitterRow';
+import RatingsModal from '../components/RatingsModal';
 
 @inject('newsStore', 'youtubeStore', 'twitterStore')
 @observer
@@ -64,28 +65,31 @@ export default class ListScreen extends Component {
       }
       this.shuffle(data);
       return (
-        <FlatList
-          data={data}
-          ref={this.flatListRef}
-          renderItem={({item, index}) =>
-            item.length ? (
-              <TwitterRow item={item} />
-            ) : (
-              <item.component
-                item={item}
-                flatListRef={this.flatListRef}
-                index={index}
+        <View>
+          <FlatList
+            data={data}
+            ref={this.flatListRef}
+            renderItem={({item, index}) =>
+              item.length ? (
+                <TwitterRow item={item} />
+              ) : (
+                <item.component
+                  item={item}
+                  flatListRef={this.flatListRef}
+                  index={index}
+                />
+              )
+            }
+            keyExtractor={(item) => (item.length ? item[0].id : item.id)}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={this.onRefresh}
               />
-            )
-          }
-          keyExtractor={(item) => (item.length ? item[0].id : item.id)}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-        />
+            }
+          />
+          <RatingsModal />
+        </View>
       );
     } else {
       return (

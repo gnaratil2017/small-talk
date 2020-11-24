@@ -2,10 +2,11 @@ import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet, Linking} from 'react-native';
 import {Card, Icon} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
+import {inject, observer} from 'mobx-react';
 import {compact} from 'lodash';
 
-export default function TwitterCard(props) {
-  const {item, leftSide} = props;
+function TwitterCard(props) {
+  const {item, leftSide, uiStore, selectedItemStore} = props;
   const {colors} = useTheme();
 
   const openLink = () => {
@@ -17,11 +18,18 @@ export default function TwitterCard(props) {
       .catch((err) => console.error("Couldn't load page", err));
   };
 
+  const openModal = () => {
+    selectedItemStore.setSelectedItem(item)
+    uiStore.setModalVisible(true)
+  }
+
   return (
     <TouchableOpacity
       style={styles.buttonContainer}
       activeOpacity={0.8}
-      onPress={() => openLink()}>
+      onPress={() => openLink()}
+      onLongPress={() => openModal()}
+      >
       <Card
         wrapperStyle={styles.cardWrapper}
         containerStyle={[
@@ -33,7 +41,7 @@ export default function TwitterCard(props) {
           adjustsFontSizeToFit
           numberOfLines={1}
           style={{color: colors.text}}>
-          {item.name}
+          {item.title}
         </Card.Title>
         <View style={styles.seeTweets}>
           <Text style={styles.seeTweetsText}>
@@ -85,3 +93,5 @@ const styles = StyleSheet.create({
     paddingRight: 3,
   },
 });
+
+export default inject('uiStore', 'selectedItemStore')(observer(TwitterCard))

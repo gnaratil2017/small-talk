@@ -1,20 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  View,
-  Text,
-  FlatList,
   ScrollView,
   StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  TouchableWithoutFeedback
 } from 'react-native';
 import Modal from 'react-native-modal'
 import {inject, observer} from 'mobx-react';
-import CategoryRatingItem from './CategoryRatingItem';
+import TagRatingItem from './TagRatingItem';
 
 
-const categories = [
+const tags = [
   'family-friendly',
   'NSFW',
   'humorous',
@@ -30,7 +24,7 @@ function RatingsModal(props) {
     <Modal
       propagateSwipe
       isVisible={uiStore.modalVisible}
-      backdropOpacity={0.8}
+      backdropOpacity={0.85}
       onBackdropPress={() => uiStore.setModalVisible(false)}
       style={styles.modal}
     >
@@ -39,8 +33,8 @@ function RatingsModal(props) {
         pagingEnabled={true}
         showsHorizontalScrollIndicator={false}
       >
-        {categories.map(category => (
-          <CategoryRatingItem category={category} key={category} />
+        {tags.map(tag => (
+          <TagRatingItem tag={tag} key={tag} />
         ))}
       </ScrollView>
     </Modal>
