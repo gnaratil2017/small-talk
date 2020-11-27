@@ -35,6 +35,8 @@ export default class RatingsModal extends Component {
           data={tags}
           ref={this.flatListRef}
           horizontal={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => (
             <TagRatingItem
               tag={item}
