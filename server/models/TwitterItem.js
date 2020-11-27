@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const TwitterItemSchema = new mongoose.Schema({
-  name: {type: String, required: true},
+  title: {type: String, required: true},
   url: {type: String, unique: true},
   tweetVolume: Number,
   tags: [String]

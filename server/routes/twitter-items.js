@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post('/', (req, res) => {
   const twitterItem = new TwitterItem({
-    name: req.body.name,
+    title: req.body.name,
     url: req.body.url,
     tweetVolume: req.body.tweetVolume
   })

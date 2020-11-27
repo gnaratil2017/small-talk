@@ -73,7 +73,7 @@ const saveTwitterData = data => {
   for(let i = 0; i < 20; i++) {
     const item = data.trends[i]
     const twitterItem = new TwitterItem({
-      name: item.name,
+      title: item.name,
       url: item.url,
       tweetVolume: item.tweet_volume
     })

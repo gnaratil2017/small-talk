@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import {Dimensions, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {Card, Icon} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
+import {inject, observer} from 'mobx-react';
 import SourceImageTitle from './SourceImageTitle';
 
-export default function NewsCard(props) {
-  const {item, flatListRef, index} = props;
+function NewsCard(props) {
+  const {item, flatListRef, index, uiStore, selectedItemStore} = props;
   const {colors} = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -18,8 +19,16 @@ export default function NewsCard(props) {
     setIsExpanded(!isExpanded);
   };
 
+  const openModal = () => {
+    selectedItemStore.setSelectedItem(item);
+    uiStore.setModalVisible(true);
+  };
+
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={() => expandOrCollapse()}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => expandOrCollapse()}
+      onLongPress={() => openModal()}>
       <Card
         wrapperStyle={[
           styles.wrapper,
@@ -44,7 +53,8 @@ export default function NewsCard(props) {
           title={item.title}
         />
         <Text style={[styles.text, {color: colors.text}]}>
-          {isExpanded ? item.content : item.description}
+          {item.description}
+          {isExpanded ? '\n\n' + item.content : ''}
         </Text>
         <Icon
           name={isExpanded ? 'chevron-up' : 'chevron-down'}
@@ -71,3 +81,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default inject('uiStore', 'selectedItemStore')(observer(NewsCard));
