@@ -1,25 +1,31 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, StyleSheet, Dimensions} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import {Card} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import {inject, observer} from 'mobx-react';
 
 function TagRatingItem(props) {
-  const {tag, flatListRef, index, selectedItemStore} = props
+  const {tag, flatListRef, index, selectedItemStore, uiStore} = props;
   const {colors} = useTheme();
 
-  // const goToNext = () => {
-  //   flatListRef.current.scrollToIndex({
-  //     animated: true,
-  //     index: index + 1,
-  //     viewPosition: 0,
-  //   });
-  // };
-
   const sendVotesAndSwipe = (votes) => {
-    votes && selectedItemStore.sendVotes(tag, votes)
-    // swipe
-  }
+    votes && selectedItemStore.sendVotes(tag, votes);
+    if (index < 5) {
+      flatListRef.current.scrollToIndex({
+        animated: true,
+        index: index + 1,
+        viewPosition: 0,
+      });
+    } else {
+      uiStore.setModalVisible(false);
+    }
+  };
 
   return (
     <Card
@@ -31,19 +37,28 @@ function TagRatingItem(props) {
           borderColor: colors.card,
         },
       ]}>
-      <Card.Title
-        style={{color: colors.text}}>
-        {tag}
-      </Card.Title>
+      <Card.Title style={{color: colors.text}}>{tag}</Card.Title>
       <View style={styles.ratingsWrapper}>
-        <TouchableOpacity onPress={() => sendVotesAndSwipe()} style={[styles.rating, styles.low]}>
-          <Text style={[styles.ratingText, {color: colors.text}]}>not at all</Text>
+        <TouchableOpacity
+          onPress={() => sendVotesAndSwipe()}
+          style={[styles.rating, styles.low]}>
+          <Text style={[styles.ratingText, {color: colors.text}]}>
+            not at all
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => sendVotesAndSwipe(1)} style={[styles.rating, styles.medium]}>
-          <Text style={[styles.ratingText, {color: colors.text}]}>somewhat</Text>
+        <TouchableOpacity
+          onPress={() => sendVotesAndSwipe(1)}
+          style={[styles.rating, styles.medium]}>
+          <Text style={[styles.ratingText, {color: colors.text}]}>
+            somewhat
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => sendVotesAndSwipe(2)} style={[styles.rating, styles.high]}>
-          <Text style={[styles.ratingText, {color: colors.text}]}>extremely</Text>
+        <TouchableOpacity
+          onPress={() => sendVotesAndSwipe(2)}
+          style={[styles.rating, styles.high]}>
+          <Text style={[styles.ratingText, {color: colors.text}]}>
+            extremely
+          </Text>
         </TouchableOpacity>
       </View>
     </Card>
@@ -75,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   low: {
-    backgroundColor:'#F80000',
+    backgroundColor: '#F80000',
   },
   medium: {
     backgroundColor: '#D00000',
@@ -87,7 +102,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
 });
 
-export default inject('selectedItemStore')(observer(TagRatingItem))
+export default inject('selectedItemStore', 'uiStore')(observer(TagRatingItem));

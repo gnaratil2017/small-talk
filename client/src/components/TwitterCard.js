@@ -19,17 +19,16 @@ function TwitterCard(props) {
   };
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item)
-    uiStore.setModalVisible(true)
-  }
+    selectedItemStore.setSelectedItem(item);
+    uiStore.setModalVisible(true);
+  };
 
   return (
     <TouchableOpacity
       style={styles.buttonContainer}
       activeOpacity={0.8}
       onPress={() => openLink()}
-      onLongPress={() => openModal()}
-      >
+      onLongPress={() => openModal()}>
       <Card
         wrapperStyle={styles.cardWrapper}
         containerStyle={[
@@ -94,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject('uiStore', 'selectedItemStore')(observer(TwitterCard))
+export default inject('uiStore', 'selectedItemStore')(observer(TwitterCard));

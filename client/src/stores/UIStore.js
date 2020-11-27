@@ -1,7 +1,7 @@
 import {makeAutoObservable, action} from 'mobx';
 
 class UIStore {
-  modalVisible = false
+  modalVisible = false;
 
   constructor() {
     makeAutoObservable(this);

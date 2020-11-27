@@ -11,7 +11,7 @@ import SelectedItemStore from './src/stores/SelectedItemStore';
 export default function App() {
   return (
     <Provider
-      uiStore = {UIStore}
+      uiStore={UIStore}
       newsStore={NewsStore}
       youtubeStore={YoutubeStore}
       twitterStore={TwitterStore}

@@ -1,7 +1,7 @@
 import {makeAutoObservable, action} from 'mobx';
 
 class SelectedItemStore {
-  selectedItem = undefined
+  selectedItem = undefined;
 
   constructor() {
     makeAutoObservable(this);
@@ -13,8 +13,7 @@ class SelectedItemStore {
   }
 
   @action
-  sendVotes(tag, votes) {
-  }
+  sendVotes(tag, votes) {}
 }
 
 export default new SelectedItemStore();

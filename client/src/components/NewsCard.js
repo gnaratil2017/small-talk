@@ -20,16 +20,15 @@ function NewsCard(props) {
   };
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item)
-    uiStore.setModalVisible(true)
-  }
+    selectedItemStore.setSelectedItem(item);
+    uiStore.setModalVisible(true);
+  };
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => expandOrCollapse()}
-      onLongPress={() => openModal()}
-      >
+      onLongPress={() => openModal()}>
       <Card
         wrapperStyle={[
           styles.wrapper,
@@ -54,7 +53,8 @@ function NewsCard(props) {
           title={item.title}
         />
         <Text style={[styles.text, {color: colors.text}]}>
-          {isExpanded ? item.content : item.description}
+          {item.description}
+          {isExpanded ? '\n\n' + item.content : ''}
         </Text>
         <Icon
           name={isExpanded ? 'chevron-up' : 'chevron-down'}
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject('uiStore', 'selectedItemStore')(observer(NewsCard))
+export default inject('uiStore', 'selectedItemStore')(observer(NewsCard));

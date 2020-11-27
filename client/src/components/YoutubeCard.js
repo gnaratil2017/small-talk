@@ -11,49 +11,51 @@ function YoutubeCard(props) {
   const {colors} = useTheme();
 
   const openLink = () => {
-    Linking.openURL(
-      `https://www.youtube.com/watch?v=${item.id}`,
-    ).catch((err) => console.error("Couldn't load page", err))
-  }
+    Linking.openURL(`https://www.youtube.com/watch?v=${item.id}`).catch((err) =>
+      console.error("Couldn't load page", err),
+    );
+  };
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item)
-    uiStore.setModalVisible(true)
-  }
+    selectedItemStore.setSelectedItem(item);
+    uiStore.setModalVisible(true);
+  };
 
   return (
     <View>
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => openLink()}
-      onLongPress={() => openModal()}
-      >
-      <Card
-        containerStyle={[
-          styles.card,
-          {
-            backgroundColor: colors.card,
-            borderColor: colors.card,
-            shadowColor: colors.text,
-          },
-        ]}>
-        <SourceImageTitle
-          source={item.source}
-          publishedAt={item.publishedAt}
-          imageUrl={item.thumbnailUrl}
-          title={item.title}
-        />
-        <View style={styles.statsRow}>
-          <StatisticDisplay iconName="eye" statistic={item.viewCount} />
-          <StatisticDisplay iconName="thumbs-up" statistic={item.likeCount} />
-          <StatisticDisplay
-            iconName="thumbs-down"
-            statistic={item.dislikeCount}
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => openLink()}
+        onLongPress={() => openModal()}>
+        <Card
+          containerStyle={[
+            styles.card,
+            {
+              backgroundColor: colors.card,
+              borderColor: colors.card,
+              shadowColor: colors.text,
+            },
+          ]}>
+          <SourceImageTitle
+            source={item.source}
+            publishedAt={item.publishedAt}
+            imageUrl={item.thumbnailUrl}
+            title={item.title}
           />
-          <StatisticDisplay iconName="comment" statistic={item.commentCount} />
-        </View>
-      </Card>
-    </TouchableOpacity>
+          <View style={styles.statsRow}>
+            <StatisticDisplay iconName="eye" statistic={item.viewCount} />
+            <StatisticDisplay iconName="thumbs-up" statistic={item.likeCount} />
+            <StatisticDisplay
+              iconName="thumbs-down"
+              statistic={item.dislikeCount}
+            />
+            <StatisticDisplay
+              iconName="comment"
+              statistic={item.commentCount}
+            />
+          </View>
+        </Card>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -74,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject('uiStore', 'selectedItemStore')(observer(YoutubeCard))
+export default inject('uiStore', 'selectedItemStore')(observer(YoutubeCard));
