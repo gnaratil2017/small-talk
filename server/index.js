@@ -9,6 +9,7 @@ const Twitter = require('twitter')
 const newsItems = require('./routes/news-items')
 const youtubeItems = require('./routes/youtube-items')
 const twitterItems = require('./routes/twitter-items')
+const users = require('./routes/users')
 const NewsItem = require('./models/NewsItem')
 const YoutubeItem = require('./models/YoutubeItem')
 const TwitterItem = require('./models/TwitterItem')
@@ -18,6 +19,7 @@ app.use(express.json())
 app.use('/api/news-items', newsItems)
 app.use('/api/youtube-items', youtubeItems)
 app.use('/api/twitter-items', twitterItems)
+app.use('/api/users', users)
 
 const port = process.env.PORT || 3000
 const mongoUri = process.env.MONGODB_URI || `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.twlp2.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
