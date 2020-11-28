@@ -14,8 +14,8 @@ function TagRatingItem(props) {
   const {tag, flatListRef, index, selectedItemStore, uiStore} = props;
   const {colors} = useTheme();
 
-  const sendVotesAndSwipe = (votes) => {
-    votes && selectedItemStore.sendVotes(tag, votes);
+  const sendVoteAndSwipe = (weight) => {
+    selectedItemStore.sendVoteIfHasNotVoted(tag, weight);
     if (index < 5) {
       flatListRef.current.scrollToIndex({
         animated: true,
@@ -40,21 +40,21 @@ function TagRatingItem(props) {
       <Card.Title style={{color: colors.text}}>{tag}</Card.Title>
       <View style={styles.ratingsWrapper}>
         <TouchableOpacity
-          onPress={() => sendVotesAndSwipe()}
+          onPress={() => sendVoteAndSwipe(0)}
           style={[styles.rating, styles.low]}>
           <Text style={[styles.ratingText, {color: colors.text}]}>
             not at all
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => sendVotesAndSwipe(1)}
+          onPress={() => sendVoteAndSwipe(1)}
           style={[styles.rating, styles.medium]}>
           <Text style={[styles.ratingText, {color: colors.text}]}>
             somewhat
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => sendVotesAndSwipe(2)}
+          onPress={() => sendVoteAndSwipe(2)}
           style={[styles.rating, styles.high]}>
           <Text style={[styles.ratingText, {color: colors.text}]}>
             extremely

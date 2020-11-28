@@ -17,7 +17,7 @@ function YoutubeCard(props) {
   };
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item);
+    selectedItemStore.setSelectedItem(item, 'youtube');
     uiStore.setModalVisible(true);
   };
 
