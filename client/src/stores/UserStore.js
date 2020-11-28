@@ -17,18 +17,22 @@ class UserStore {
       });
     } catch (e) {
       if (e.response.status === 404) {
-        try {
-          const response = await axios.post('http://localhost:3000/api/users', {
-            id: id
-          })
-          const data = response.data;
-          runInAction(() => {
-            this.id = data._id;
-          });
-        } catch (e) {
-          console.log(e)
-        }
+        this.createUser(id);
       }
+    }
+  }
+
+  async createUser(id) {
+    try {
+      const response = await axios.post('http://localhost:3000/api/users', {
+        id: id,
+      });
+      const data = response.data;
+      runInAction(() => {
+        this.id = data._id;
+      });
+    } catch (e) {
+      console.log(e);
     }
   }
 }
