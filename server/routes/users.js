@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  User.find({})
+  User.find()
     .then(users => res.send(users))
     .catch(err => console.log(err))
 })
@@ -37,16 +37,6 @@ router.get('/:id', (req, res) => {
       res.send(user)
     }
   })
-})
-
-
-router.put('/:id', (req, res) => {
-  const userId = req.params.id
-
-  User.findById(userId)
-    .then(user => {})
-    .then(result => res.send(result))
-    .catch(err => console.log(err))
 })
 
 module.exports = router
