@@ -49,11 +49,12 @@ class SelectedItemStore {
 
   sendVoteIfHasNotVoted(tag, weight) {
     if (this.hasNotVoted[tag]) {
-      this.sendVote(tag, weight);
+      this.createVote(tag, weight);
+      weight > 0 && this.addVoteToItem(tag, weight);
     }
   }
 
-  async sendVote(tag, weight) {
+  async createVote(tag, weight) {
     try {
       await axios.post(`http://localhost:3000/api/${this.itemType}-votes`, {
         voter: UserStore.id,
@@ -64,6 +65,20 @@ class SelectedItemStore {
       runInAction(() => {
         this.hasNotVoted[tag] = false;
       });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async addVoteToItem(tag, weight) {
+    try {
+      await axios.put(
+        `http://localhost:3000/api/${this.itemType}-items/${this.selectedItem.id}`,
+        {
+          tag: tag,
+          weight: weight,
+        },
+      );
     } catch (e) {
       console.log(e);
     }

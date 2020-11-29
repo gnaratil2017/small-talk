@@ -1,3 +1,5 @@
+const THRESHOLD = 2
+
 const express = require('express')
 
 const NewsItem = require('../models/NewsItem')
@@ -52,10 +54,18 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
   const newsItemId = req.params.id
+  const {tag, weight} = req.body
 
   NewsItem.findById(newsItemId)
     .then(newsItem => {
-      newsItem.tags = [...new Set([...newsItem.tags,...req.body.tags])]
+      const currentVotes = newsItem.votes.get(tag)
+      if (!currentVotes || currentVotes < THRESHOLD) {
+        const updatedVotes = currentVotes ? currentVotes + weight : weight
+        newsItem.votes.set(tag, updatedVotes)
+        if (updatedVotes >= THRESHOLD) {
+          newsItem.tags = [...new Set([...newsItem.tags, tag])]
+        }
+      }
       return newsItem.save()
     })
     .then(result => res.send(result))
