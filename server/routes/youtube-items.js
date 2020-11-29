@@ -1,3 +1,5 @@
+const THRESHOLD = 2
+
 const express = require('express')
 
 const YoutubeItem = require('../models/YoutubeItem')
@@ -57,6 +59,26 @@ router.get('/:tag', (req, res) => {
 
   YoutubeItem.find({tags: {$in: tag}})
     .then(youtubeItems => res.send(youtubeItems))
+    .catch(err => console.log(err))
+})
+
+router.put('/:id', (req, res) => {
+  const youtubeItemId = req.params.id
+  const {tag, weight} = req.body
+
+  YoutubeItem.findById(youtubeItemId)
+    .then(youtubeItem => {
+      const currentVotes = youtubeItem.votes.get(tag)
+      if (!currentVotes || currentVotes < THRESHOLD) {
+        const updatedVotes = currentVotes ? currentVotes + weight : weight
+        youtubeItem.votes.set(tag, updatedVotes)
+        if (updatedVotes >= THRESHOLD) {
+          youtubeItem.tags = [...new Set([...youtubeItem.tags, tag])]
+        }
+      }
+      return youtubeItem.save()
+    })
+    .then(result => res.send(result))
     .catch(err => console.log(err))
 })
 

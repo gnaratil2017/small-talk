@@ -28,4 +28,10 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
+router.delete('/', (req, res) => {
+  TwitterVote.deleteMany({})
+    .then(result => res.send(result))
+    .catch(err => console.log(err))
+})
+
 module.exports = router

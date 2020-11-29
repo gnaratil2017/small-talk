@@ -1,3 +1,5 @@
+const THRESHOLD = 2
+
 const express = require('express')
 
 const TwitterItem = require('../models/TwitterItem')
@@ -50,6 +52,26 @@ router.get('/:tag', (req, res) => {
 
   TwitterItem.find({tags: {$in: tag}})
     .then(twitterItems => res.send(twitterItems))
+    .catch(err => console.log(err))
+})
+
+router.put('/:id', (req, res) => {
+  const twitterItemId = req.params.id
+  const {tag, weight} = req.body
+
+  TwitterItem.findById(twitterItemId)
+    .then(twitterItem => {
+      const currentVotes = twitterItem.votes.get(tag)
+      if (!currentVotes || currentVotes < THRESHOLD) {
+        const updatedVotes = currentVotes ? currentVotes + weight : weight
+        twitterItem.votes.set(tag, updatedVotes)
+        if (updatedVotes >= THRESHOLD) {
+          twitterItem.tags = [...new Set([...twitterItem.tags, tag])]
+        }
+      }
+      return twitterItem.save()
+    })
+    .then(result => res.send(result))
     .catch(err => console.log(err))
 })
 

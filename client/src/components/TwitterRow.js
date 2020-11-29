@@ -8,7 +8,7 @@ export default function TwitterRow(props) {
   return (
     <View style={styles.rowContainer}>
       <TwitterCard item={item[0]} leftSide={true} />
-      <TwitterCard item={item[1]} />
+      {item[1] ? <TwitterCard item={item[1]} /> : undefined}
     </View>
   );
 }
