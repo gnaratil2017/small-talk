@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default inject('selectedItemStore', 'uiStore')(observer(TagRatingItem));
+export default inject('selectedItemStore')(observer(TagRatingItem));
