@@ -1,10 +1,11 @@
-import {makeAutoObservable, action} from 'mobx';
+import {makeAutoObservable, action, runInAction} from 'mobx';
 import axios from 'axios';
 import UserStore from './UserStore';
 
 class SelectedItemStore {
   selectedItem = undefined;
   itemType = '';
+  hasNotVoted = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -35,12 +36,21 @@ class SelectedItemStore {
     }
   }
 
+  async checkHasNotVoted(tag) {
+    try {
+      const data = await this.getVote(tag);
+      runInAction(() => {
+        this.hasNotVoted[tag] = data.length === 0;
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   sendVoteIfHasNotVoted(tag, weight) {
-    this.getVote(tag).then((data) => {
-      if (data.length === 0) {
-        this.sendVote(tag, weight);
-      }
-    });
+    if (this.hasNotVoted[tag]) {
+      this.sendVote(tag, weight);
+    }
   }
 
   async sendVote(tag, weight) {
@@ -50,6 +60,9 @@ class SelectedItemStore {
         item: this.selectedItem.id,
         tag: tag,
         weight: weight,
+      });
+      runInAction(() => {
+        this.hasNotVoted[tag] = false;
       });
     } catch (e) {
       console.log(e);

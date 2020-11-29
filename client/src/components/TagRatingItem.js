@@ -1,31 +1,17 @@
-import React from 'react';
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {Card} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import {inject, observer} from 'mobx-react';
+import RatingButton from './RatingButton';
 
 function TagRatingItem(props) {
-  const {tag, flatListRef, index, selectedItemStore, uiStore} = props;
+  const {tag, flatListRef, index, selectedItemStore} = props;
   const {colors} = useTheme();
 
-  const sendVoteAndSwipe = (weight) => {
-    selectedItemStore.sendVoteIfHasNotVoted(tag, weight);
-    if (index < 5) {
-      flatListRef.current.scrollToIndex({
-        animated: true,
-        index: index + 1,
-        viewPosition: 0,
-      });
-    } else {
-      uiStore.setModalVisible(false);
-    }
-  };
+  useEffect(() => {
+    selectedItemStore.checkHasNotVoted(tag);
+  });
 
   return (
     <Card
@@ -39,27 +25,30 @@ function TagRatingItem(props) {
       ]}>
       <Card.Title style={{color: colors.text}}>{tag}</Card.Title>
       <View style={styles.ratingsWrapper}>
-        <TouchableOpacity
-          onPress={() => sendVoteAndSwipe(0)}
-          style={[styles.rating, styles.low]}>
-          <Text style={[styles.ratingText, {color: colors.text}]}>
-            not at all
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => sendVoteAndSwipe(1)}
-          style={[styles.rating, styles.medium]}>
-          <Text style={[styles.ratingText, {color: colors.text}]}>
-            somewhat
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => sendVoteAndSwipe(2)}
-          style={[styles.rating, styles.high]}>
-          <Text style={[styles.ratingText, {color: colors.text}]}>
-            extremely
-          </Text>
-        </TouchableOpacity>
+        <RatingButton
+          tag={tag}
+          flatListRef={flatListRef}
+          index={index}
+          weight={0}
+          text={'not at all'}
+          backgroundColor={'#F80000'}
+        />
+        <RatingButton
+          tag={tag}
+          flatListRef={flatListRef}
+          index={index}
+          weight={1}
+          text={'somewhat'}
+          backgroundColor={'#D00000'}
+        />
+        <RatingButton
+          tag={tag}
+          flatListRef={flatListRef}
+          index={index}
+          weight={2}
+          text={'extremely'}
+          backgroundColor={'#A80000'}
+        />
       </View>
     </Card>
   );
@@ -83,25 +72,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  rating: {
-    height: '100%',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  low: {
-    backgroundColor: '#F80000',
-  },
-  medium: {
-    backgroundColor: '#D00000',
-  },
-  high: {
-    backgroundColor: '#A80000',
-  },
-  ratingText: {
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 
