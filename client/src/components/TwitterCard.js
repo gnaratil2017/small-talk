@@ -19,7 +19,7 @@ function TwitterCard(props) {
   };
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item);
+    selectedItemStore.setSelectedItem(item, 'twitter');
     uiStore.setModalVisible(true);
   };
 

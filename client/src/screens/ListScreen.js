@@ -10,8 +10,9 @@ import {inject, observer} from 'mobx-react';
 import {chunk} from 'lodash';
 import TwitterRow from '../components/TwitterRow';
 import RatingsModal from '../components/RatingsModal';
+import {getUniqueId} from 'react-native-device-info';
 
-@inject('newsStore', 'youtubeStore', 'twitterStore')
+@inject('newsStore', 'youtubeStore', 'twitterStore', 'userStore')
 @observer
 export default class ListScreen extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ export default class ListScreen extends Component {
 
   componentDidMount() {
     const {name} = this.props.route;
+    this.props.userStore.fetchOrCreateUser(getUniqueId());
     this.props.newsStore.fetchFilteredNewsItems(name);
     this.props.youtubeStore.fetchFilteredYoutubeItems(name);
     this.props.twitterStore.fetchFilteredTwitterItems(name);

@@ -20,7 +20,7 @@ function NewsCard(props) {
   };
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item);
+    selectedItemStore.setSelectedItem(item, 'news');
     uiStore.setModalVisible(true);
   };
 
