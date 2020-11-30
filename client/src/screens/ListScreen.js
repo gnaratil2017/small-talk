@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
   View,
   FlatList,
+  Dimensions,
   RefreshControl,
   ActivityIndicator,
   StyleSheet,
@@ -71,6 +72,7 @@ export default class ListScreen extends Component {
           <FlatList
             data={data}
             ref={this.flatListRef}
+            contentContainerStyle={styles.contentContainer}
             renderItem={({item, index}) =>
               item.length ? (
                 <TwitterRow item={item} />
@@ -104,6 +106,9 @@ export default class ListScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    minHeight: Dimensions.get('window').height - 100,
+  },
   loader: {
     paddingTop: 70,
   },
