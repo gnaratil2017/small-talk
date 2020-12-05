@@ -3,6 +3,7 @@ import {FlatList, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 import {inject, observer} from 'mobx-react';
 import TagRatingItem from './TagRatingItem';
+import ShareButton from './ShareButton';
 
 const tags = [
   'family-friendly',
@@ -31,6 +32,7 @@ export default class RatingsModal extends Component {
         backdropOpacity={0.85}
         onBackdropPress={() => uiStore.setModalVisible(false)}
         style={styles.modal}>
+        <ShareButton />
         <FlatList
           data={tags}
           ref={this.flatListRef}
