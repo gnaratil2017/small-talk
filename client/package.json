@@ -19,6 +19,7 @@
     "mobx-react": "^7.0.0",
     "moment": "^2.29.1",
     "react": "16.13.1",
+    "react-dom": "^17.0.1",
     "react-native": "0.63.3",
     "react-native-appearance": "^0.3.4",
     "react-native-device-info": "^7.1.0",
@@ -29,7 +30,8 @@
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.11.0",
     "react-native-tab-view": "^2.15.2",
-    "react-native-vector-icons": "^7.1.0"
+    "react-native-vector-icons": "^7.1.0",
+    "react-native-web": "^0.14.9"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -37,10 +39,17 @@
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^1.1.0",
     "babel-jest": "^25.1.0",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-react-native-web": "^0.14.9",
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
-    "react-test-renderer": "16.13.1"
+    "react-test-renderer": "16.13.1",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "jest": {
     "preset": "react-native"
