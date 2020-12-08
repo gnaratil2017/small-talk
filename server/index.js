@@ -82,7 +82,7 @@ const saveYoutubeData = data => {
 }
 
 const saveTwitterData = data => {
-  for(let i = 0; i < 20; i++) {
+  for(let i = 0; i < 15; i++) {
     const item = data.trends[i]
     const twitterItem = new TwitterItem({
       title: item.name,

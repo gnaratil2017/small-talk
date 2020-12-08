@@ -1,12 +1,13 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, StyleSheet, Linking} from 'react-native';
-import {Card, Icon} from 'react-native-elements';
+import {TouchableOpacity, View, StyleSheet, Linking} from 'react-native';
+import {Card} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import {inject, observer} from 'mobx-react';
-import {compact} from 'lodash';
+import SourceImageTitle from './SourceImageTitle';
+import StatisticDisplay from './StatisticDisplay';
 
 function TwitterCard(props) {
-  const {item, leftSide, uiStore, selectedItemStore} = props;
+  const {item, uiStore, selectedItemStore} = props;
   const {colors} = useTheme();
 
   const openLink = () => {
@@ -25,71 +26,47 @@ function TwitterCard(props) {
 
   return (
     <TouchableOpacity
-      style={styles.buttonContainer}
       activeOpacity={0.8}
       onPress={() => openLink()}
       onLongPress={() => openModal()}>
       <Card
-        wrapperStyle={styles.cardWrapper}
         containerStyle={[
-          styles.cardContainer,
-          leftSide ? styles.leftCard : styles.rightCard,
-          {shadowColor: colors.text},
+          styles.card,
+          {
+            backgroundColor: colors.card,
+            borderColor: colors.card,
+            shadowColor: colors.text,
+          },
         ]}>
-        <Card.Title
-          adjustsFontSizeToFit
-          numberOfLines={1}
-          style={{color: colors.text}}>
-          {item.title}
-        </Card.Title>
-        <View style={styles.seeTweets}>
-          <Text style={styles.seeTweetsText}>
-            {compact([
-              'See',
-              item.tweetVolume && item.tweetVolume.toLocaleString(),
-              'tweets',
-            ]).join(' ')}
-          </Text>
-          <Icon name="fire" type="font-awesome-5" color="#808080" size={12} />
-        </View>
+        <SourceImageTitle
+          source="Twitter"
+          imageUrl={item.imageUrl}
+          title={item.title}
+        />
+        {item.tweetVolume ? (
+          <View style={styles.statsRow}>
+            <StatisticDisplay iconName="twitter" statistic={item.tweetVolume} />
+          </View>
+        ) : null}
       </Card>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    flex: 1,
-  },
-  cardWrapper: {
-    height: 50,
-  },
-  cardContainer: {
-    backgroundColor: '#243447',
-    borderColor: '#243447',
+  card: {
     borderRadius: 10,
     shadowOpacity: 0.3,
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 6,
+    paddingTop: 5,
     marginBottom: 10,
-    paddingLeft: 8,
-    paddingRight: 8,
   },
-  leftCard: {
-    marginRight: 10,
-  },
-  rightCard: {
-    marginLeft: 10,
-  },
-  seeTweets: {
+  statsRow: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  seeTweetsText: {
-    color: '#808080',
-    paddingRight: 3,
   },
 });
 

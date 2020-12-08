@@ -30,7 +30,8 @@ export default function SourceImageTitle(props) {
   return (
     <View>
       <Text style={styles.source}>
-        {source}, {moment(publishedAt).fromNow()}
+        {source}
+        {publishedAt ? `, ${moment(publishedAt).fromNow()}` : ''}
       </Text>
       {imageUrl ? (
         <Card.Image style={styles.image} source={{uri: imageUrl}} />
