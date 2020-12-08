@@ -1,5 +1,7 @@
 import {makeAutoObservable, runInAction} from 'mobx';
 import axios from 'axios';
+import getEnvVars from '../../environment';
+const {apiUrl} = getEnvVars();
 
 class UserStore {
   id = '';
@@ -10,7 +12,7 @@ class UserStore {
 
   async fetchOrCreateUser(id) {
     try {
-      const response = await axios.get(`http://localhost:3000/api/users/${id}`);
+      const response = await axios.get(`${apiUrl}/users/${id}`);
       const data = response.data;
       runInAction(() => {
         this.id = data._id;
@@ -24,7 +26,7 @@ class UserStore {
 
   async createUser(id) {
     try {
-      const response = await axios.post('http://localhost:3000/api/users', {
+      const response = await axios.post(`${apiUrl}/users`, {
         id: id,
       });
       const data = response.data;

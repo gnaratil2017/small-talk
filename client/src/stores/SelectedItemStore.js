@@ -1,6 +1,8 @@
 import {makeAutoObservable, action, runInAction} from 'mobx';
 import axios from 'axios';
 import UserStore from './UserStore';
+import getEnvVars from '../../environment';
+const {apiUrl} = getEnvVars();
 
 class SelectedItemStore {
   selectedItem = undefined;
@@ -19,16 +21,13 @@ class SelectedItemStore {
 
   async getVote(tag) {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/${this.itemType}-votes`,
-        {
-          params: {
-            voter: UserStore.id,
-            item: this.selectedItem.id,
-            tag: tag,
-          },
+      const response = await axios.get(`${apiUrl}/${this.itemType}-votes`, {
+        params: {
+          voter: UserStore.id,
+          item: this.selectedItem.id,
+          tag: tag,
         },
-      );
+      });
       const data = response.data;
       return data;
     } catch (e) {
@@ -56,7 +55,7 @@ class SelectedItemStore {
 
   async createVote(tag, weight) {
     try {
-      await axios.post(`http://localhost:3000/api/${this.itemType}-votes`, {
+      await axios.post(`${apiUrl}/${this.itemType}-votes`, {
         voter: UserStore.id,
         item: this.selectedItem.id,
         tag: tag,
@@ -73,7 +72,7 @@ class SelectedItemStore {
   async addVoteToItem(tag, weight) {
     try {
       await axios.put(
-        `http://localhost:3000/api/${this.itemType}-items/${this.selectedItem.id}`,
+        `${apiUrl}/${this.itemType}-items/${this.selectedItem.id}`,
         {
           tag: tag,
           weight: weight,

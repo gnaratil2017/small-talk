@@ -2,6 +2,8 @@ import {makeAutoObservable, runInAction} from 'mobx';
 import axios from 'axios';
 import moment from 'moment';
 import NewsItem from './NewsItem';
+import getEnvVars from '../../environment';
+const {apiUrl} = getEnvVars();
 
 class NewsStore {
   newsItems = new Map();
@@ -14,7 +16,7 @@ class NewsStore {
   async fetchFilteredNewsItems(tag) {
     this.loading = true;
     try {
-      const response = await axios.get('http://localhost:3000/api/news-items', {
+      const response = await axios.get(`${apiUrl}/news-items`, {
         params:
           tag === 'hot'
             ? {date: moment().subtract(1, 'days').toDate()}
