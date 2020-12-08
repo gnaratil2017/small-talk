@@ -8,8 +8,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {inject, observer} from 'mobx-react';
-import {chunk} from 'lodash';
-import TwitterRow from '../components/TwitterRow';
 import RatingsModal from '../components/RatingsModal';
 import {getUniqueId} from 'react-native-device-info';
 
@@ -64,7 +62,7 @@ export default class ListScreen extends Component {
         data = data.concat(youtube);
       }
       if (twitter) {
-        data = data.concat(chunk(twitter, 2));
+        data = data.concat(twitter);
       }
       this.shuffle(data);
       return (
@@ -73,18 +71,14 @@ export default class ListScreen extends Component {
             data={data}
             ref={this.flatListRef}
             contentContainerStyle={styles.contentContainer}
-            renderItem={({item, index}) =>
-              item.length ? (
-                <TwitterRow item={item} />
-              ) : (
-                <item.component
-                  item={item}
-                  flatListRef={this.flatListRef}
-                  index={index}
-                />
-              )
-            }
-            keyExtractor={(item) => (item.length ? item[0].id : item.id)}
+            renderItem={({item, index}) => (
+              <item.component
+                item={item}
+                flatListRef={this.flatListRef}
+                index={index}
+              />
+            )}
+            keyExtractor={(item) => item.id}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}

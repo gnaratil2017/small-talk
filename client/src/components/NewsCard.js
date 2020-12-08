@@ -30,14 +30,13 @@ function NewsCard(props) {
       onPress={() => expandOrCollapse()}
       onLongPress={() => openModal()}>
       <Card
-        wrapperStyle={[
-          styles.wrapper,
+        wrapperStyle={
           isExpanded
             ? {
                 height: Dimensions.get('window').height - 150,
               }
-            : {},
-        ]}
+            : {}
+        }
         containerStyle={[
           styles.card,
           {

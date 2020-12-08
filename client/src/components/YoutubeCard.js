@@ -22,41 +22,36 @@ function YoutubeCard(props) {
   };
 
   return (
-    <View>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => openLink()}
-        onLongPress={() => openModal()}>
-        <Card
-          containerStyle={[
-            styles.card,
-            {
-              backgroundColor: colors.card,
-              borderColor: colors.card,
-              shadowColor: colors.text,
-            },
-          ]}>
-          <SourceImageTitle
-            source={item.source}
-            publishedAt={item.publishedAt}
-            imageUrl={item.thumbnailUrl}
-            title={item.title}
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => openLink()}
+      onLongPress={() => openModal()}>
+      <Card
+        containerStyle={[
+          styles.card,
+          {
+            backgroundColor: colors.card,
+            borderColor: colors.card,
+            shadowColor: colors.text,
+          },
+        ]}>
+        <SourceImageTitle
+          source={item.source}
+          publishedAt={item.publishedAt}
+          imageUrl={item.thumbnailUrl}
+          title={item.title}
+        />
+        <View style={styles.statsRow}>
+          <StatisticDisplay iconName="eye" statistic={item.viewCount} />
+          <StatisticDisplay iconName="thumbs-up" statistic={item.likeCount} />
+          <StatisticDisplay
+            iconName="thumbs-down"
+            statistic={item.dislikeCount}
           />
-          <View style={styles.statsRow}>
-            <StatisticDisplay iconName="eye" statistic={item.viewCount} />
-            <StatisticDisplay iconName="thumbs-up" statistic={item.likeCount} />
-            <StatisticDisplay
-              iconName="thumbs-down"
-              statistic={item.dislikeCount}
-            />
-            <StatisticDisplay
-              iconName="comment"
-              statistic={item.commentCount}
-            />
-          </View>
-        </Card>
-      </TouchableOpacity>
-    </View>
+          <StatisticDisplay iconName="comment" statistic={item.commentCount} />
+        </View>
+      </Card>
+    </TouchableOpacity>
   );
 }
 
