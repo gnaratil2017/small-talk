@@ -28,7 +28,7 @@ app.use('/api/youtube-votes', youtubeVotes)
 app.use('/api/twitter-votes', twitterVotes)
 
 const port = process.env.PORT || 3000
-const mongoUri = process.env.MONGODB_URI || `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.twlp2.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+const mongoUri = process.env.MONGODB_URI
 
 const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_KEY}`
 const youtubeUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${process.env.YOUTUBE_KEY}&maxResults=10`
