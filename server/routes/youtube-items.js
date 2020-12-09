@@ -1,4 +1,4 @@
-const THRESHOLD = 2
+const THRESHOLD = 1.5
 
 const express = require('express')
 
@@ -17,7 +17,10 @@ router.post('/', (req, res) => {
     viewCount: req.body.viewCount,
     likeCount: req.body.likeCount,
     dislikeCount: req.body.dislikeCount,
-    commentCount: req.body.commentCount
+    commentCount: req.body.commentCount,
+    tags: [],
+    sumWeights: {},
+    numVotes: {}
   })
 
   youtubeItem.save()
@@ -46,34 +49,25 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
-router.get('/:date', (req, res) => {
-  const date = req.params.date
-
-  YoutubeItem.find({createdAt: {$gte: date}})
-    .then(youtubeItems => res.send(youtubeItems))
-    .catch(err => console.log(err))
-})
-
-router.get('/:tag', (req, res) => {
-  const tag = req.params.tag
-
-  YoutubeItem.find({tags: {$in: tag}})
-    .then(youtubeItems => res.send(youtubeItems))
-    .catch(err => console.log(err))
-})
-
 router.put('/:id', (req, res) => {
   const youtubeItemId = req.params.id
   const {tag, weight} = req.body
 
   YoutubeItem.findById(youtubeItemId)
     .then(youtubeItem => {
-      const currentVotes = youtubeItem.votes.get(tag)
-      if (!currentVotes || currentVotes < THRESHOLD) {
-        const updatedVotes = currentVotes ? currentVotes + weight : weight
-        youtubeItem.votes.set(tag, updatedVotes)
-        if (updatedVotes >= THRESHOLD) {
-          youtubeItem.tags = [...new Set([...youtubeItem.tags, tag])]
+      const currSumWeights = youtubeItem.sumWeights.get(tag)
+      const currNumVotes = youtubeItem.numVotes.get(tag)
+      const updatedSumWeights = currSumWeights ? currSumWeights + weight : weight
+      const updatedNumVotes = currNumVotes ? currNumVotes + 1 : 1
+      youtubeItem.sumWeights.set(tag, updatedSumWeights)
+      youtubeItem.numVotes.set(tag, updatedNumVotes)
+      const updatedAverage = updatedSumWeights/updatedNumVotes
+      if (updatedAverage >= THRESHOLD) {
+        youtubeItem.tags = [...new Set([...youtubeItem.tags, tag])]
+      } else {
+        const index = youtubeItem.tags.indexOf(tag)
+        if (index > -1) {
+          youtubeItem.tags.splice(index, 1)
         }
       }
       return youtubeItem.save()
