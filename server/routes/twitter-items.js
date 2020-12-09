@@ -1,4 +1,4 @@
-const THRESHOLD = 2
+const THRESHOLD = 1.5
 
 const express = require('express')
 
@@ -10,7 +10,10 @@ router.post('/', (req, res) => {
   const twitterItem = new TwitterItem({
     title: req.body.name,
     url: req.body.url,
-    tweetVolume: req.body.tweetVolume
+    tweetVolume: req.body.tweetVolume,
+    tags: [],
+    sumWeights: {},
+    numVotes: {}
   })
 
   twitterItem.save()
@@ -39,34 +42,25 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
-router.get('/:date', (req, res) => {
-  const date = req.params.date
-
-  TwitterItem.find({createdAt: {$gte: date}})
-    .then(twitterItems => res.send(twitterItems))
-    .catch(err => console.log(err))
-})
-
-router.get('/:tag', (req, res) => {
-  const tag = req.params.tag
-
-  TwitterItem.find({tags: {$in: tag}})
-    .then(twitterItems => res.send(twitterItems))
-    .catch(err => console.log(err))
-})
-
 router.put('/:id', (req, res) => {
   const twitterItemId = req.params.id
   const {tag, weight} = req.body
 
   TwitterItem.findById(twitterItemId)
     .then(twitterItem => {
-      const currentVotes = twitterItem.votes.get(tag)
-      if (!currentVotes || currentVotes < THRESHOLD) {
-        const updatedVotes = currentVotes ? currentVotes + weight : weight
-        twitterItem.votes.set(tag, updatedVotes)
-        if (updatedVotes >= THRESHOLD) {
-          twitterItem.tags = [...new Set([...twitterItem.tags, tag])]
+      const currSumWeights = twitterItem.sumWeights.get(tag)
+      const currNumVotes = twitterItem.numVotes.get(tag)
+      const updatedSumWeights = currSumWeights ? currSumWeights + weight : weight
+      const updatedNumVotes = currNumVotes ? currNumVotes + 1 : 1
+      twitterItem.sumWeights.set(tag, updatedSumWeights)
+      twitterItem.numVotes.set(tag, updatedNumVotes)
+      const updatedAverage = updatedSumWeights/updatedNumVotes
+      if (updatedAverage >= THRESHOLD) {
+        twitterItem.tags = [...new Set([...twitterItem.tags, tag])]
+      } else {
+        const index = twitterItem.tags.indexOf(tag)
+        if (index > -1) {
+          twitterItem.tags.splice(index, 1)
         }
       }
       return twitterItem.save()

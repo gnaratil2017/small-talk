@@ -49,7 +49,7 @@ class SelectedItemStore {
   sendVoteIfHasNotVoted(tag, weight) {
     if (this.hasNotVoted[tag]) {
       this.createVote(tag, weight);
-      weight > 0 && this.addVoteToItem(tag, weight);
+      this.addVoteToItem(tag, weight);
     }
   }
 

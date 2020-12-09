@@ -52,7 +52,8 @@ const saveNewsData = data => {
       publishedAt: item.publishedAt,
       content: item.content,
       tags: [],
-      votes: {}
+      sumWeights: {},
+      numVotes: {}
     })
 
     newsItem.save().catch(err => console.log(err))
@@ -74,7 +75,8 @@ const saveYoutubeData = data => {
       dislikeCount: item.statistics.dislikeCount,
       commentCount: item.statistics.commentCount,
       tags: [],
-      votes: {}
+      sumWeights: {},
+      numVotes: {}
     })
 
     youtubeItem.save().catch(err => console.log(err))
@@ -89,7 +91,8 @@ const saveTwitterData = data => {
       url: item.url,
       tweetVolume: item.tweet_volume,
       tags: [],
-      votes: {}
+      sumWeights: {},
+      numVotes: {}
     })
 
     twitterItem.save().catch(err => console.log(err))

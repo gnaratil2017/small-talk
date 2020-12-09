@@ -9,7 +9,8 @@ const NewsItemSchema = new mongoose.Schema({
   publishedAt: String,
   content: String,
   tags: [String],
-  votes: {type: Map, of: Number}
+  sumWeights: {type: Map, of: Number},
+  numVotes: {type: Map, of: Number}
 }, { timestamps: true })
 
 module.exports = mongoose.model('NewsItem', NewsItemSchema)

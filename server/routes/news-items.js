@@ -1,4 +1,4 @@
-const THRESHOLD = 2
+const THRESHOLD = 1.5
 
 const express = require('express')
 
@@ -15,7 +15,9 @@ router.post('/', (req, res) => {
     imageUrl: req.body.imageUrl,
     publishedAt: req.body.publishedAt,
     content: req.body.content,
-    tags: []
+    tags: [],
+    sumWeights: {},
+    numVotes: {}
   })
 
   newsItem.save()
@@ -44,26 +46,25 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
-router.get('/:id', (req, res) => {
-  const newsItemId = req.params.id
-
-  NewsItem.findById(newsItemId)
-    .then(newsItem => res.send(newsItem))
-    .catch(err => console.log(err))
-})
-
 router.put('/:id', (req, res) => {
   const newsItemId = req.params.id
   const {tag, weight} = req.body
 
   NewsItem.findById(newsItemId)
     .then(newsItem => {
-      const currentVotes = newsItem.votes.get(tag)
-      if (!currentVotes || currentVotes < THRESHOLD) {
-        const updatedVotes = currentVotes ? currentVotes + weight : weight
-        newsItem.votes.set(tag, updatedVotes)
-        if (updatedVotes >= THRESHOLD) {
-          newsItem.tags = [...new Set([...newsItem.tags, tag])]
+      const currSumWeights = newsItem.sumWeights.get(tag)
+      const currNumVotes = newsItem.numVotes.get(tag)
+      const updatedSumWeights = currSumWeights ? currSumWeights + weight : weight
+      const updatedNumVotes = currNumVotes ? currNumVotes + 1 : 1
+      newsItem.sumWeights.set(tag, updatedSumWeights)
+      newsItem.numVotes.set(tag, updatedNumVotes)
+      const updatedAverage = updatedSumWeights/updatedNumVotes
+      if (updatedAverage >= THRESHOLD) {
+        newsItem.tags = [...new Set([...newsItem.tags, tag])]
+      } else {
+        const index = newsItem.tags.indexOf(tag)
+        if (index > -1) {
+          newsItem.tags.splice(index, 1)
         }
       }
       return newsItem.save()
