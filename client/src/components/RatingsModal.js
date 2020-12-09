@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {Platform, FlatList, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 import {inject, observer} from 'mobx-react';
 import TagRatingItem from './TagRatingItem';
@@ -29,7 +29,7 @@ export default class RatingsModal extends Component {
       <Modal
         propagateSwipe
         isVisible={uiStore.modalVisible}
-        backdropOpacity={0.85}
+        backdropOpacity={Platform.OS === 'android' ? 0.2 : 0.85}
         onBackdropPress={() => uiStore.setModalVisible(false)}
         style={styles.modal}>
         <ShareButton />
