@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, Platform, StyleSheet} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 export default function StatisticDisplay(props) {
@@ -9,7 +9,11 @@ export default function StatisticDisplay(props) {
     <View style={styles.row}>
       <Icon name={iconName} type="font-awesome-5" color="#808080" size={20} />
       <Text style={[styles.text, !statistic ? styles.disabled : undefined]}>
-        {statistic ? statistic.toLocaleString() : 'disabled'}
+        {!statistic
+          ? 'disabled'
+          : Platform.OS === 'android'
+          ? statistic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          : statistic.toLocaleString()}
       </Text>
     </View>
   );
