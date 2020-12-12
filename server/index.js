@@ -139,6 +139,11 @@ const getRecentData = async urls => {
   })
 }
 
+const updateContent = () => {
+  deleteDataBeforeDate(moment().subtract(6, 'days').toDate())
+  getRecentData(urls)
+}
+
 mongoose.connect(mongoUri,
   {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
   .then(result => {
@@ -148,6 +153,7 @@ mongoose.connect(mongoUri,
 
 schedule.scheduleJob('0 8 * * *', async () => {
   console.log('fetching data 8am every day')
-  deleteDataBeforeDate(moment().subtract(6, 'days').toDate())
-  getRecentData(urls)
+  updateContent()
 })
+
+module.exports = {updateContent}
