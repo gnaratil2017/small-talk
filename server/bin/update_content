@@ -1,4 +1,0 @@
-#! /app/bin/node
-const {updateContent} = require('../index.js');
-updateContent();
-process.exit();
