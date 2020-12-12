@@ -1,1 +1,2 @@
 web: node index.js
+update_content_job: node update_content_job.js
