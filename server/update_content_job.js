@@ -1,10 +1,13 @@
 require('dotenv').config()
+const mongoose = require('mongoose')
 const axios = require('axios')
 const moment = require('moment')
 const Twitter = require('twitter')
 const NewsItem = require('./models/NewsItem')
 const YoutubeItem = require('./models/YoutubeItem')
 const TwitterItem = require('./models/TwitterItem')
+
+const mongoUri = process.env.MONGODB_URI
 
 const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_KEY}`
 const youtubeUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${process.env.YOUTUBE_KEY}&maxResults=10`
@@ -120,4 +123,9 @@ const updateContent = () => {
   getRecentData(urls)
 }
 
-updateContent()
+mongoose.connect(mongoUri,
+  {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
+  .then(result => {
+    updateContent()
+  })
+  .catch(err => console.log(err))
