@@ -118,9 +118,10 @@ const getRecentData = async urls => {
   })
 }
 
-const updateContent = () => {
+const updateContent = async () => {
   deleteDataBeforeDate(moment().subtract(6, 'days').toDate())
-  getRecentData(urls)
+  await getRecentData(urls)
+  process.exit()
 }
 
 mongoose.connect(mongoUri,
