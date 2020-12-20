@@ -1,5 +1,5 @@
 require('dotenv').config()
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const axios = require('axios')
 const moment = require('moment')
 const Twitter = require('twitter')
@@ -7,7 +7,7 @@ const NewsItem = require('./models/NewsItem')
 const YoutubeItem = require('./models/YoutubeItem')
 const TwitterItem = require('./models/TwitterItem')
 
-const mongoUri = process.env.MONGODB_URI
+// const mongoUri = process.env.MONGODB_URI
 
 const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_KEY}`
 const youtubeUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${process.env.YOUTUBE_KEY}&maxResults=10`
@@ -19,7 +19,7 @@ const twitterClient = new Twitter({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-const saveNewsData = data => {
+const saveNewsData = async data => {
   for(let i = 0; i < data.articles.length; i++) {
     const item = data.articles[i]
     const newsItem = new NewsItem({
@@ -35,11 +35,11 @@ const saveNewsData = data => {
       numVotes: {}
     })
 
-    newsItem.save().catch(err => console.log(err))
+    await newsItem.save().catch(err => console.log(err))
   }
 }
 
-const saveYoutubeData = data => {
+const saveYoutubeData = async data => {
   for(let i = 0; i < data.items.length; i++) {
     const item = data.items[i]
     const youtubeItem = new YoutubeItem({
@@ -58,11 +58,11 @@ const saveYoutubeData = data => {
       numVotes: {}
     })
 
-    youtubeItem.save().catch(err => console.log(err))
+    await youtubeItem.save().catch(err => console.log(err))
   }
 }
 
-const saveTwitterData = data => {
+const saveTwitterData = async data => {
   for(let i = 0; i < 15; i++) {
     const item = data.trends[i]
     const twitterItem = new TwitterItem({
@@ -74,7 +74,7 @@ const saveTwitterData = data => {
       numVotes: {}
     })
 
-    twitterItem.save().catch(err => console.log(err))
+    await twitterItem.save().catch(err => console.log(err))
   }
 }
 
@@ -121,12 +121,14 @@ const getRecentData = async urls => {
 const updateContent = async () => {
   deleteDataBeforeDate(moment().subtract(6, 'days').toDate())
   await getRecentData(urls)
-  process.exit()
+  // process.exit()
 }
 
-mongoose.connect(mongoUri,
-  {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
-  .then(result => {
-    updateContent()
-  })
-  .catch(err => console.log(err))
+updateContent()
+
+// mongoose.connect(mongoUri,
+//   {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
+//   .then(result => {
+//     updateContent()
+//   })
+//   .catch(err => console.log(err))
