@@ -19,7 +19,7 @@ const twitterClient = new Twitter({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-const saveNewsData = async data => {
+const saveNewsData = data => {
   for(let i = 0; i < data.articles.length; i++) {
     const item = data.articles[i]
     const newsItem = new NewsItem({
@@ -35,11 +35,11 @@ const saveNewsData = async data => {
       numVotes: {}
     })
 
-    await newsItem.save().catch(err => console.log(err))
+    newsItem.save().catch(err => console.log(err))
   }
 }
 
-const saveYoutubeData = async data => {
+const saveYoutubeData = data => {
   for(let i = 0; i < data.items.length; i++) {
     const item = data.items[i]
     const youtubeItem = new YoutubeItem({
@@ -58,11 +58,11 @@ const saveYoutubeData = async data => {
       numVotes: {}
     })
 
-    await youtubeItem.save().catch(err => console.log(err))
+    youtubeItem.save().catch(err => console.log(err))
   }
 }
 
-const saveTwitterData = async data => {
+const saveTwitterData = data => {
   for(let i = 0; i < 15; i++) {
     const item = data.trends[i]
     const twitterItem = new TwitterItem({
@@ -74,7 +74,7 @@ const saveTwitterData = async data => {
       numVotes: {}
     })
 
-    await twitterItem.save().catch(err => console.log(err))
+    twitterItem.save().catch(err => console.log(err))
   }
 }
 
