@@ -1,5 +1,5 @@
 import useSWR, { SWRResponse } from 'swr'
-import NewsItem, { NewsItemAttributes, newsItemFromJson } from '../../stores/NewsItem'
+import NewsItem, { NewsItemAttributes, newsItemFromJson } from './NewsItem'
 
 interface FetchNewsItemsResponse extends SWRResponse<NewsItemAttributes[], unknown> {
   newsItems: NewsItem[]

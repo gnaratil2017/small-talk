@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import { FlatList } from 'react-native'
-import NewsCard from '../components/NewsCard'
+import NewsCard from '../../components/NewsCard'
+import YoutubeItem from '../../domains/Youtube/YoutubeItem'
 
-export interface NewsCardProps {
-  item: NewsItem,
-  flatListRef: React.LegacyRef<FlatList<NewsItem>>
+export interface CardProps {
+  item: YoutubeItem | NewsItem,
+  flatListRef: React.LegacyRef<FlatList>
   index: number,
 }
 
@@ -21,7 +22,7 @@ export interface NewsItemAttributes {
 }
 
 export default interface NewsItem {
-  component: FunctionComponent<NewsCardProps>
+  component: FunctionComponent<CardProps>
   id: string
   source: string
   title: string
@@ -33,7 +34,7 @@ export default interface NewsItem {
   tags: string[]
 }
 
-export function newsItemFromJson(json: NewsItemAttributes) : NewsItem {
+export function newsItemFromJson(json: NewsItemAttributes): NewsItem {
   return {
     ...json,
     id: json._id,

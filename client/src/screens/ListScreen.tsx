@@ -11,29 +11,32 @@ import {
 import RatingsModal from '../components/RatingsModal'
 // import {getUniqueId} from 'react-native-device-info'
 import useFetchNewsItems from '../domains/News/useFetchNewsItems'
+import useFetchYoutubeItems from '../domains/Youtube/useFetchYoutubeItems'
 import { useRoute } from '@react-navigation/native'
-import NewsItem from '../stores/NewsItem'
+import NewsItem from '../domains/News/NewsItem'
+import YoutubeItem from '../domains/Youtube/YoutubeItem'
 
 interface Props {
   route: MaterialTopTabBarProps
 }
 
 const ListScreen: React.FC<Props> = () => {
-  const flatListRef = createRef<FlatList<NewsItem>>()
+  const flatListRef = createRef<FlatList>()
   // const [flatListRef, setFlatListRef] = useState(null)
   const route = useRoute()
   const { newsItems, isValidating: isNewsValidating, revalidate: revalidateNews } = useFetchNewsItems(route.name)
-  // const { youtubeItems, isValidating: isYoutubeValidating } = useFetchYoutubeItems(route.name)
+  const { youtubeItems, isValidating: isYoutubeValidating, revalidate: revalidateYoutube } = useFetchYoutubeItems(route.name)
   // const { twitterItems, isValidating: isTwitterValidating } = useFetchTwitterItems(route.name)
 
   const onRefresh = () => {
     revalidateNews().catch(() => {})
+    revalidateYoutube().catch(() => {})
     // this.props.youtubeStore.fetchFilteredYoutubeItems(route.name);
     // this.props.twitterStore.fetchFilteredTwitterItems(route.name);
   }
 
   const shuffledData = () => {
-    const data = newsItems
+    const data: (NewsItem | YoutubeItem)[] = (newsItems as (NewsItem | YoutubeItem)[]).concat(youtubeItems)
     for (let i = data.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [data[i], data[j]] = [data[j], data[i]]
@@ -42,7 +45,7 @@ const ListScreen: React.FC<Props> = () => {
     return data
   }
 
-  if (isNewsValidating) {
+  if (isNewsValidating || isYoutubeValidating) {
     return (
       <View style={styles.loader}>
         <ActivityIndicator size="small" />
@@ -56,17 +59,17 @@ const ListScreen: React.FC<Props> = () => {
         data={shuffledData()}
         ref={flatListRef}
         contentContainerStyle={styles.contentContainer}
-        renderItem={({item, index}) => (
+        renderItem={({item, index} : {item: NewsItem | YoutubeItem, index: number}) => (
           <item.component
             item={item}
             flatListRef={flatListRef}
             index={index}
           />
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item: NewsItem | YoutubeItem) => item.id}
         refreshControl={
           <RefreshControl
-            refreshing={isNewsValidating}
+            refreshing={isNewsValidating || isYoutubeValidating}
             onRefresh={onRefresh}
           />
         }
