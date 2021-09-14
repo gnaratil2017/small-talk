@@ -1,15 +1,15 @@
-import React from 'react';
-import {TouchableOpacity, Text, StyleSheet, Dimensions} from 'react-native';
-import {useTheme} from '@react-navigation/native';
-import {inject, observer} from 'mobx-react';
+import React from 'react'
+import {TouchableOpacity, Text, StyleSheet, Dimensions} from 'react-native'
+import {useTheme} from '@react-navigation/native'
+import {inject, observer} from 'mobx-react'
 
 function ShareButton(props) {
-  const {uiStore} = props;
-  const {colors} = useTheme();
+  const {uiStore} = props
+  const {colors} = useTheme()
 
   const onPress = () => {
-    uiStore.setModalVisible(false);
-  };
+    uiStore.setModalVisible(false)
+  }
 
   return (
     <TouchableOpacity
@@ -18,7 +18,7 @@ function ShareButton(props) {
       onPress={() => onPress()}>
       <Text style={[styles.text, {color: colors.text}]}>Share to...</Text>
     </TouchableOpacity>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-});
+})
 
-export default inject('uiStore')(observer(ShareButton));
+export default inject('uiStore')(observer(ShareButton))

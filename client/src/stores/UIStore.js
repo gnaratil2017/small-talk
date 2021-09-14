@@ -1,16 +1,16 @@
-import {makeAutoObservable, action} from 'mobx';
+import {makeAutoObservable, action} from 'mobx'
 
 class UIStore {
   modalVisible = false;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
   @action
   setModalVisible(bool) {
-    this.modalVisible = bool;
+    this.modalVisible = bool
   }
 }
 
-export default new UIStore();
+export default new UIStore()

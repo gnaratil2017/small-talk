@@ -1,5 +1,5 @@
-import {extendObservable} from 'mobx';
-import YoutubeCard from '../components/YoutubeCard';
+import {extendObservable} from 'mobx'
+import YoutubeCard from '../components/YoutubeCard'
 
 export default class YoutubeItem {
   constructor(item) {
@@ -14,7 +14,7 @@ export default class YoutubeItem {
       likeCount,
       dislikeCount,
       commentCount,
-    } = item;
+    } = item
 
     extendObservable(this, {
       component: YoutubeCard,
@@ -28,6 +28,6 @@ export default class YoutubeItem {
       likeCount,
       dislikeCount,
       commentCount,
-    });
+    })
   }
 }

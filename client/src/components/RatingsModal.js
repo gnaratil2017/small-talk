@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {Platform, FlatList, StyleSheet} from 'react-native';
-import Modal from 'react-native-modal';
-import {inject, observer} from 'mobx-react';
-import TagRatingItem from './TagRatingItem';
-import ShareButton from './ShareButton';
+import React, {Component} from 'react'
+import {Platform, FlatList, StyleSheet} from 'react-native'
+import Modal from 'react-native-modal'
+import {inject, observer} from 'mobx-react'
+import TagRatingItem from './TagRatingItem'
+import ShareButton from './ShareButton'
 
 const tags = [
   'family-friendly',
@@ -12,18 +12,18 @@ const tags = [
   'political',
   'entertaining',
   'controversial',
-];
+]
 
 @inject('uiStore')
 @observer
 export default class RatingsModal extends Component {
   constructor(props) {
-    super(props);
-    this.flatListRef = React.createRef();
+    super(props)
+    this.flatListRef = React.createRef()
   }
 
   render() {
-    const {uiStore} = this.props;
+    const {uiStore} = this.props
 
     return (
       <Modal
@@ -49,7 +49,7 @@ export default class RatingsModal extends Component {
           keyExtractor={(item) => item}
         />
       </Modal>
-    );
+    )
   }
 }
 
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
     margin: 0,
     bottom: 0,
   },
-});
+})

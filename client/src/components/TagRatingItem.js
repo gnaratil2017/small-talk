@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
-import {Card} from 'react-native-elements';
-import {useTheme} from '@react-navigation/native';
-import {inject, observer} from 'mobx-react';
-import RatingButton from './RatingButton';
+import React, {useEffect} from 'react'
+import {View, StyleSheet, Dimensions} from 'react-native'
+import {Card} from 'react-native-elements'
+import {useTheme} from '@react-navigation/native'
+import {inject, observer} from 'mobx-react'
+import RatingButton from './RatingButton'
 
 function TagRatingItem(props) {
-  const {tag, flatListRef, index, selectedItemStore} = props;
-  const {colors} = useTheme();
+  const {tag, flatListRef, index, selectedItemStore} = props
+  const {colors} = useTheme()
 
   useEffect(() => {
-    selectedItemStore.checkHasNotVoted(tag);
-  });
+    selectedItemStore.checkHasNotVoted(tag)
+  })
 
   return (
     <Card
@@ -51,7 +51,7 @@ function TagRatingItem(props) {
         />
       </View>
     </Card>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-});
+})
 
-export default inject('selectedItemStore')(observer(TagRatingItem));
+export default inject('selectedItemStore')(observer(TagRatingItem))

@@ -1,28 +1,28 @@
-import React from 'react';
-import {TouchableOpacity, View, StyleSheet, Linking} from 'react-native';
-import {Card} from 'react-native-elements';
-import {useTheme} from '@react-navigation/native';
-import {inject, observer} from 'mobx-react';
-import SourceImageTitle from './SourceImageTitle';
-import StatisticDisplay from './StatisticDisplay';
+import React from 'react'
+import {TouchableOpacity, View, StyleSheet, Linking} from 'react-native'
+import {Card} from 'react-native-elements'
+import {useTheme} from '@react-navigation/native'
+import {inject, observer} from 'mobx-react'
+import SourceImageTitle from './SourceImageTitle'
+import StatisticDisplay from './StatisticDisplay'
 
 function TwitterCard(props) {
-  const {item, uiStore, selectedItemStore} = props;
-  const {colors} = useTheme();
+  const {item, uiStore, selectedItemStore} = props
+  const {colors} = useTheme()
 
   const openLink = () => {
     const appUrl = `twitter://search?query=${item.url.substring(
       item.url.indexOf('=') + 1,
-    )}`;
+    )}`
     Linking.canOpenURL(appUrl)
       .then((supported) => Linking.openURL(supported ? appUrl : item.url))
-      .catch((err) => console.error("Couldn't load page", err));
-  };
+      .catch((err) => console.error('Couldn\'t load page', err))
+  }
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item, 'twitter');
-    uiStore.setModalVisible(true);
-  };
+    selectedItemStore.setSelectedItem(item, 'twitter')
+    uiStore.setModalVisible(true)
+  }
 
   return (
     <TouchableOpacity
@@ -50,7 +50,7 @@ function TwitterCard(props) {
         ) : null}
       </Card>
     </TouchableOpacity>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-});
+})
 
-export default inject('uiStore', 'selectedItemStore')(observer(TwitterCard));
+export default inject('uiStore', 'selectedItemStore')(observer(TwitterCard))

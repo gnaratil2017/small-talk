@@ -1,8 +1,8 @@
-import {makeAutoObservable, action, runInAction} from 'mobx';
-import axios from 'axios';
-import UserStore from './UserStore';
-import getEnvVars from '../../environment';
-const {apiUrl} = getEnvVars();
+import {makeAutoObservable, action, runInAction} from 'mobx'
+import axios from 'axios'
+import UserStore from './UserStore'
+import getEnvVars from '../../environment'
+const {apiUrl} = getEnvVars()
 
 class SelectedItemStore {
   selectedItem = undefined;
@@ -10,13 +10,13 @@ class SelectedItemStore {
   hasNotVoted = {};
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
   @action
   setSelectedItem(item, itemType) {
-    this.selectedItem = item;
-    this.itemType = itemType;
+    this.selectedItem = item
+    this.itemType = itemType
   }
 
   async getVote(tag) {
@@ -27,29 +27,29 @@ class SelectedItemStore {
           item: this.selectedItem.id,
           tag: tag,
         },
-      });
-      const data = response.data;
-      return data;
+      })
+      const data = response.data
+      return data
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   }
 
   async checkHasNotVoted(tag) {
     try {
-      const data = await this.getVote(tag);
+      const data = await this.getVote(tag)
       runInAction(() => {
-        this.hasNotVoted[tag] = data.length === 0;
-      });
+        this.hasNotVoted[tag] = data.length === 0
+      })
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   }
 
   sendVoteIfHasNotVoted(tag, weight) {
     if (this.hasNotVoted[tag]) {
-      this.createVote(tag, weight);
-      this.addVoteToItem(tag, weight);
+      this.createVote(tag, weight)
+      this.addVoteToItem(tag, weight)
     }
   }
 
@@ -60,12 +60,12 @@ class SelectedItemStore {
         item: this.selectedItem.id,
         tag: tag,
         weight: weight,
-      });
+      })
       runInAction(() => {
-        this.hasNotVoted[tag] = false;
-      });
+        this.hasNotVoted[tag] = false
+      })
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   }
 
@@ -77,11 +77,11 @@ class SelectedItemStore {
           tag: tag,
           weight: weight,
         },
-      );
+      )
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   }
 }
 
-export default new SelectedItemStore();
+export default new SelectedItemStore()

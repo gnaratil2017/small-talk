@@ -1,8 +1,8 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Card} from 'react-native-elements';
-import {useTheme} from '@react-navigation/native';
-import moment from 'moment';
+import React from 'react'
+import {View, Text, StyleSheet} from 'react-native'
+import {Card} from 'react-native-elements'
+import {useTheme} from '@react-navigation/native'
+import moment from 'moment'
 
 moment.updateLocale('en', {
   relativeTime: {
@@ -21,11 +21,11 @@ moment.updateLocale('en', {
     y: 'a year',
     yy: '%dY',
   },
-});
+})
 
 export default function SourceImageTitle(props) {
-  const {source, publishedAt, imageUrl, title} = props;
-  const {colors} = useTheme();
+  const {source, publishedAt, imageUrl, title} = props
+  const {colors} = useTheme()
 
   return (
     <View>
@@ -40,7 +40,7 @@ export default function SourceImageTitle(props) {
         {title}
       </Card.Title>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   title: {
     paddingTop: 10,
   },
-});
+})

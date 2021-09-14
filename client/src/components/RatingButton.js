@@ -1,7 +1,7 @@
-import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
-import {useTheme} from '@react-navigation/native';
-import {inject, observer} from 'mobx-react';
+import React from 'react'
+import {TouchableOpacity, Text, StyleSheet} from 'react-native'
+import {useTheme} from '@react-navigation/native'
+import {inject, observer} from 'mobx-react'
 
 function RatingButton(props) {
   const {
@@ -13,21 +13,21 @@ function RatingButton(props) {
     backgroundColor,
     selectedItemStore,
     uiStore,
-  } = props;
-  const {colors} = useTheme();
+  } = props
+  const {colors} = useTheme()
 
   const sendVoteAndSwipe = () => {
-    selectedItemStore.sendVoteIfHasNotVoted(tag, weight);
+    selectedItemStore.sendVoteIfHasNotVoted(tag, weight)
     if (index < 5) {
       flatListRef.current.scrollToIndex({
         animated: true,
         index: index + 1,
         viewPosition: 0,
-      });
+      })
     } else {
-      uiStore.setModalVisible(false);
+      uiStore.setModalVisible(false)
     }
-  };
+  }
 
   return (
     <TouchableOpacity
@@ -40,7 +40,7 @@ function RatingButton(props) {
       ]}>
       <Text style={[styles.ratingText, {color: colors.text}]}>{text}</Text>
     </TouchableOpacity>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -57,6 +57,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-});
+})
 
-export default inject('selectedItemStore', 'uiStore')(observer(RatingButton));
+export default inject('selectedItemStore', 'uiStore')(observer(RatingButton))
