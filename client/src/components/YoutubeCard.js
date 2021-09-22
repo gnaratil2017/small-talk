@@ -24,8 +24,8 @@ function YoutubeCard(props) {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() => openLink()}
-      onLongPress={() => openModal()}>
+      onPress={openLink}
+      onLongPress={openModal}>
       <Card
         containerStyle={[
           styles.card,

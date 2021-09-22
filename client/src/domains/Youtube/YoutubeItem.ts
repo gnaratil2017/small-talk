@@ -1,13 +1,6 @@
-import React, { FunctionComponent } from 'react'
-import { FlatList } from 'react-native'
+import { FunctionComponent } from 'react'
 import YoutubeCard from '../../components/YoutubeCard'
-import NewsItem from '../../domains/News/NewsItem'
-
-export interface CardProps {
-  item: YoutubeItem | NewsItem,
-  flatListRef: React.LegacyRef<FlatList>
-  index: number,
-}
+import { CardProps } from '../../screens/ListScreen'
 
 export interface YoutubeItemAttributes {
   _id: string

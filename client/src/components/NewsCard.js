@@ -26,8 +26,8 @@ function NewsCard({item, flatListRef, index}) {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() => expandOrCollapse()}
-      onLongPress={() => openModal()}>
+      onPress={expandOrCollapse}
+      onLongPress={openModal}>
       <Card
         wrapperStyle={
           isExpanded
