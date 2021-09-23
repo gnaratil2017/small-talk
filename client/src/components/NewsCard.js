@@ -5,7 +5,8 @@ import {useTheme} from '@react-navigation/native'
 import {inject, observer} from 'mobx-react'
 import SourceImageTitle from './SourceImageTitle'
 
-function NewsCard({item, flatListRef, index}) {
+function NewsCard(props) {
+  const {item, flatListRef, index, uiStore, selectedItemStore} = props
   const {colors} = useTheme()
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -18,10 +19,10 @@ function NewsCard({item, flatListRef, index}) {
     setIsExpanded(!isExpanded)
   }
 
-  // const openModal = () => {
-  //   selectedItemStore.setSelectedItem(item, 'news')
-  //   uiStore.setModalVisible(true)
-  // }
+  const openModal = () => {
+    selectedItemStore.setSelectedItem(item, 'news')
+    uiStore.setModalVisible(true)
+  }
 
   return (
     <TouchableOpacity
