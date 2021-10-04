@@ -1,7 +1,6 @@
 import {makeAutoObservable, runInAction} from 'mobx'
 import axios from 'axios'
 import moment from 'moment'
-import YoutubeItem from './YoutubeItem'
 import getEnvVars from '../../environment'
 const {apiUrl} = getEnvVars()
 

@@ -4,14 +4,17 @@ import {Card, Icon} from 'react-native-elements'
 import {useTheme} from '@react-navigation/native'
 import {inject, observer} from 'mobx-react'
 import SourceImageTitle from './SourceImageTitle'
+import NewsItem from '../domains/News/NewsItem'
+import { CardProps } from '../screens/ListScreen'
 
-function NewsCard(props) {
-  const {item, flatListRef, index, uiStore, selectedItemStore} = props
+function NewsCard(props: CardProps) {
+  const {flatListRef, index, uiStore, selectedItemStore} = props
+  const item = props.item as NewsItem
   const {colors} = useTheme()
   const [isExpanded, setIsExpanded] = useState(false)
 
   const expandOrCollapse = () => {
-    flatListRef.current.scrollToIndex({
+    flatListRef.current!.scrollToIndex({
       animated: true,
       index: index,
       viewPosition: 0,
@@ -20,8 +23,8 @@ function NewsCard(props) {
   }
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item, 'news')
-    uiStore.setModalVisible(true)
+    selectedItemStore!.setSelectedItem(item, 'news')
+    uiStore!.setModalVisible(true)
   }
 
   return (

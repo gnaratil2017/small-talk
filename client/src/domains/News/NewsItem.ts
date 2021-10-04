@@ -31,6 +31,6 @@ export function newsItemFromJson(json: NewsItemAttributes): NewsItem {
   return {
     ...json,
     id: json._id,
-    component: NewsCard
+    component: NewsCard,
   }
 }

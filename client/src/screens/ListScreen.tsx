@@ -1,4 +1,4 @@
-import React, {createRef} from 'react'
+import React, {createRef, RefObject} from 'react'
 import {MaterialTopTabBarProps} from '@react-navigation/material-top-tabs'
 import {
   View,
@@ -17,13 +17,17 @@ import { useRoute } from '@react-navigation/native'
 import NewsItem from '../domains/News/NewsItem'
 import YoutubeItem from '../domains/Youtube/YoutubeItem'
 import TwitterItem from '../domains/Twitter/TwitterItem'
+import UIStore from '../stores/UIStore'
+import SelectedItemStore from '../stores/SelectedItemStore'
 
 type ContentItem = NewsItem | YoutubeItem | TwitterItem
 
 export interface CardProps {
-  item: ContentItem,
-  flatListRef: React.LegacyRef<FlatList>
-  index: number,
+  item: ContentItem
+  flatListRef: RefObject<FlatList<ContentItem>>
+  index: number
+  uiStore?: typeof UIStore
+  selectedItemStore?: typeof SelectedItemStore
 }
 
 interface Props {
@@ -77,7 +81,7 @@ const ListScreen: React.FC<Props> = () => {
         keyExtractor={(item: ContentItem) => item.id}
         refreshControl={
           <RefreshControl
-            refreshing={isNewsValidating || isYoutubeValidating}
+            refreshing={isNewsValidating || isYoutubeValidating || isTwitterValidating}
             onRefresh={onRefresh}
           />
         }

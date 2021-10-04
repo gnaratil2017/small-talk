@@ -5,23 +5,23 @@ import {useTheme} from '@react-navigation/native'
 import {inject, observer} from 'mobx-react'
 import SourceImageTitle from './SourceImageTitle'
 import StatisticDisplay from './StatisticDisplay'
+import { CardProps } from '../screens/ListScreen'
+import YoutubeItem from '../domains/Youtube/YoutubeItem'
 
-function TwitterCard(props) {
-  const {item, uiStore, selectedItemStore} = props
+function YoutubeCard(props: CardProps) {
+  const {uiStore, selectedItemStore} = props
+  const item = props.item as YoutubeItem
   const {colors} = useTheme()
 
   const openLink = () => {
-    const appUrl = `twitter://search?query=${item.url.substring(
-      item.url.indexOf('=') + 1,
-    )}`
-    Linking.canOpenURL(appUrl)
-      .then((supported) => Linking.openURL(supported ? appUrl : item.url))
-      .catch((err) => console.error('Couldn\'t load page', err))
+    Linking.openURL(`https://www.youtube.com/watch?v=${item.id}`).catch((err) =>
+      console.error('Couldn\'t load page', err),
+    )
   }
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item, 'twitter')
-    uiStore.setModalVisible(true)
+    selectedItemStore!.setSelectedItem(item, 'youtube')
+    uiStore!.setModalVisible(true)
   }
 
   return (
@@ -39,15 +39,20 @@ function TwitterCard(props) {
           },
         ]}>
         <SourceImageTitle
-          source="Twitter"
-          imageUrl={item.imageUrl}
+          source={item.source}
+          publishedAt={item.publishedAt}
+          imageUrl={item.thumbnailUrl}
           title={item.title}
         />
-        {item.tweetVolume ? (
-          <View style={styles.statsRow}>
-            <StatisticDisplay iconName="twitter" statistic={item.tweetVolume} />
-          </View>
-        ) : null}
+        <View style={styles.statsRow}>
+          <StatisticDisplay iconName="eye" statistic={item.viewCount} />
+          <StatisticDisplay iconName="thumbs-up" statistic={item.likeCount} />
+          <StatisticDisplay
+            iconName="thumbs-down"
+            statistic={item.dislikeCount}
+          />
+          <StatisticDisplay iconName="comment" statistic={item.commentCount} />
+        </View>
       </Card>
     </TouchableOpacity>
   )
@@ -65,9 +70,8 @@ const styles = StyleSheet.create({
   statsRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 })
 
-export default inject('uiStore', 'selectedItemStore')(observer(TwitterCard))
+export default inject('uiStore', 'selectedItemStore')(observer(YoutubeCard))
