@@ -1,5 +1,4 @@
 import React, {createRef, RefObject} from 'react'
-import {MaterialTopTabBarProps} from '@react-navigation/material-top-tabs'
 import {
   View,
   FlatList,
@@ -9,7 +8,7 @@ import {
   StyleSheet,
 } from 'react-native'
 import RatingsModal from '../components/RatingsModal'
-// import {getUniqueId} from 'react-native-device-info'
+import {getUniqueId} from 'react-native-device-info'
 import useFetchNewsItems from '../domains/News/useFetchNewsItems'
 import useFetchYoutubeItems from '../domains/Youtube/useFetchYoutubeItems'
 import useFetchTwitterItems from '../domains/Twitter/useFetchTwitterItems'
@@ -19,8 +18,11 @@ import YoutubeItem from '../domains/Youtube/YoutubeItem'
 import TwitterItem from '../domains/Twitter/TwitterItem'
 import UIStore from '../stores/UIStore'
 import SelectedItemStore from '../stores/SelectedItemStore'
+import { useEffect } from 'react'
+import UserStore from '../stores/UserStore'
+import { inject } from 'mobx-react'
 
-type ContentItem = NewsItem | YoutubeItem | TwitterItem
+export type ContentItem = NewsItem | YoutubeItem | TwitterItem
 
 export interface CardProps {
   item: ContentItem
@@ -31,20 +33,25 @@ export interface CardProps {
 }
 
 interface Props {
-  route: MaterialTopTabBarProps
+  userStore?: typeof UserStore
 }
 
-const ListScreen: React.FC<Props> = () => {
+const ListScreen: React.FC<Props> = (props) => {
+  const { userStore } = props
   const flatListRef = createRef<FlatList>()
   const route = useRoute()
   const { newsItems, isValidating: isNewsValidating, revalidate: revalidateNews } = useFetchNewsItems(route.name)
   const { youtubeItems, isValidating: isYoutubeValidating, revalidate: revalidateYoutube } = useFetchYoutubeItems(route.name)
   const { twitterItems, isValidating: isTwitterValidating, revalidate: revalidateTwitter } = useFetchTwitterItems(route.name)
 
+  useEffect(() => {
+    void userStore!.fetchOrCreateUser(getUniqueId())
+  }, [])
+
   const onRefresh = () => {
-    revalidateNews().catch(() => {})
-    revalidateYoutube().catch(() => {})
-    revalidateTwitter().catch(() => {})
+    void revalidateNews()
+    void revalidateYoutube()
+    void revalidateTwitter()
   }
 
   const shuffledData = () => {
@@ -71,7 +78,7 @@ const ListScreen: React.FC<Props> = () => {
         data={shuffledData()}
         ref={flatListRef}
         contentContainerStyle={styles.contentContainer}
-        renderItem={({item, index} : {item: ContentItem, index: number}) => (
+        renderItem={({item, index}: {item: ContentItem, index: number}) => (
           <item.component
             item={item}
             flatListRef={flatListRef}
@@ -188,4 +195,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ListScreen
+export default inject('userStore')(ListScreen)

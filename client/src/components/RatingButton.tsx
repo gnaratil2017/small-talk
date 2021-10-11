@@ -1,9 +1,23 @@
-import React from 'react'
-import {TouchableOpacity, Text, StyleSheet} from 'react-native'
+import React, {RefObject} from 'react'
+import {TouchableOpacity, Text, StyleSheet, FlatList} from 'react-native'
 import {useTheme} from '@react-navigation/native'
 import {inject, observer} from 'mobx-react'
+import { ContentItem } from '../screens/ListScreen'
+import SelectedItemStore from '../stores/SelectedItemStore'
+import UIStore from '../stores/UIStore'
 
-function RatingButton(props) {
+interface Props {
+  tag: string
+  flatListRef: RefObject<FlatList<ContentItem>>
+  index: number
+  weight: number
+  text: string
+  backgroundColor: string
+  selectedItemStore?: typeof SelectedItemStore
+  uiStore?: typeof UIStore
+}
+
+function RatingButton(props: Props) {
   const {
     tag,
     flatListRef,
@@ -17,25 +31,25 @@ function RatingButton(props) {
   const {colors} = useTheme()
 
   const sendVoteAndSwipe = () => {
-    selectedItemStore.sendVoteIfHasNotVoted(tag, weight)
+    selectedItemStore!.sendVoteIfHasNotVoted(tag, weight)
     if (index < 5) {
-      flatListRef.current.scrollToIndex({
+      flatListRef.current!.scrollToIndex({
         animated: true,
         index: index + 1,
         viewPosition: 0,
       })
     } else {
-      uiStore.setModalVisible(false)
+      uiStore!.setModalVisible(false)
     }
   }
 
   return (
     <TouchableOpacity
       onPress={() => sendVoteAndSwipe()}
-      disabled={!selectedItemStore.hasNotVoted[tag]}
+      disabled={!selectedItemStore!.hasNotVoted[tag]}
       style={[
         styles.rating,
-        !selectedItemStore.hasNotVoted[tag] ? styles.disabled : undefined,
+        !selectedItemStore!.hasNotVoted[tag] ? styles.disabled : undefined,
         {backgroundColor: backgroundColor},
       ]}>
       <Text style={[styles.ratingText, {color: colors.text}]}>{text}</Text>

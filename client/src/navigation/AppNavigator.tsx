@@ -25,7 +25,7 @@ const tabNames = [
   'controversial',
 ]
 
-export default function AppNavigator() {
+const AppNavigator: React.FC = () => {
   const scheme = useColorScheme()
 
   return (
@@ -56,3 +56,5 @@ function TabNavigator() {
     </Tab.Navigator>
   )
 }
+
+export default AppNavigator

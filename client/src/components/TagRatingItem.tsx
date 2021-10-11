@@ -1,17 +1,26 @@
-import React, {useEffect} from 'react'
-import {View, StyleSheet, Dimensions} from 'react-native'
+import React, {useEffect, RefObject} from 'react'
+import {View, StyleSheet, Dimensions, FlatList} from 'react-native'
 import {Card} from 'react-native-elements'
 import {useTheme} from '@react-navigation/native'
 import {inject, observer} from 'mobx-react'
 import RatingButton from './RatingButton'
+import SelectedItemStore from '../stores/SelectedItemStore'
+import { ContentItem } from '../screens/ListScreen'
 
-function TagRatingItem(props) {
+interface Props {
+  tag: string
+  flatListRef: RefObject<FlatList<ContentItem>>
+  index: number
+  selectedItemStore?: typeof SelectedItemStore
+}
+
+const TagRatingItem: React.FC<Props> = (props) => {
   const {tag, flatListRef, index, selectedItemStore} = props
   const {colors} = useTheme()
 
   useEffect(() => {
-    selectedItemStore.checkHasNotVoted(tag)
-  })
+    void selectedItemStore!.checkHasNotVoted(tag)
+  }, [])
 
   return (
     <Card

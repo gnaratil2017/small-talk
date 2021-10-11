@@ -23,7 +23,14 @@ moment.updateLocale('en', {
   },
 })
 
-export default function SourceImageTitle(props) {
+interface Props {
+  source: string
+  publishedAt?: string
+  imageUrl: string
+  title: string
+}
+
+const SourceImageTitle: React.FC<Props> = (props) => {
   const {source, publishedAt, imageUrl, title} = props
   const {colors} = useTheme()
 
@@ -58,3 +65,5 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
 })
+
+export default SourceImageTitle

@@ -2,7 +2,12 @@ import React from 'react'
 import {View, Text, Platform, StyleSheet} from 'react-native'
 import {Icon} from 'react-native-elements'
 
-export default function StatisticDisplay(props) {
+interface Props {
+  iconName: string
+  statistic: string
+}
+
+const StatisticDisplay: React.FC<Props> = (props) => {
   const {iconName, statistic} = props
 
   return (
@@ -32,3 +37,5 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
 })
+
+export default StatisticDisplay

@@ -7,10 +7,9 @@ class UIStore {
     makeAutoObservable(this)
   }
 
-  @action
-  setModalVisible(bool) {
+  setModalVisible = action((bool: boolean) => {
     this.modalVisible = bool
-  }
+  })
 }
 
 export default new UIStore()

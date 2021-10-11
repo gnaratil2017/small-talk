@@ -4,9 +4,6 @@ import {Provider} from 'mobx-react'
 import AppNavigator from './src/navigation/AppNavigator'
 import UserStore from './src/stores/UserStore'
 import UIStore from './src/stores/UIStore'
-import NewsStore from './src/stores/NewsStore'
-import YoutubeStore from './src/stores/YoutubeStore'
-import TwitterStore from './src/stores/TwitterStore'
 import SelectedItemStore from './src/stores/SelectedItemStore'
 import axios from 'axios'
 import {SWRConfig} from 'swr'
@@ -29,9 +26,6 @@ export default function App() {
     <Provider
       userStore={UserStore}
       uiStore={UIStore}
-      newsStore={NewsStore}
-      youtubeStore={YoutubeStore}
-      twitterStore={TwitterStore}
       selectedItemStore={SelectedItemStore}>
       <SWRConfig value={{ fetcher }}>
         <AppNavigator />

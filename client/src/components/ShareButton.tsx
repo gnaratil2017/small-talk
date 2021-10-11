@@ -2,13 +2,18 @@ import React from 'react'
 import {TouchableOpacity, Text, StyleSheet, Dimensions} from 'react-native'
 import {useTheme} from '@react-navigation/native'
 import {inject, observer} from 'mobx-react'
+import UIStore from '../stores/UIStore'
 
-function ShareButton(props) {
+interface Props {
+  uiStore?: typeof UIStore
+}
+
+function ShareButton(props: Props) {
   const {uiStore} = props
   const {colors} = useTheme()
 
   const onPress = () => {
-    uiStore.setModalVisible(false)
+    uiStore!.setModalVisible(false)
   }
 
   return (
