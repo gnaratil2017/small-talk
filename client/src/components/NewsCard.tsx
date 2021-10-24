@@ -1,40 +1,43 @@
-import React, {useState} from 'react';
-import {Dimensions, TouchableOpacity, Text, StyleSheet} from 'react-native';
-import {Card, Icon} from 'react-native-elements';
-import {useTheme} from '@react-navigation/native';
-import {inject, observer} from 'mobx-react';
-import SourceImageTitle from './SourceImageTitle';
+import React, {useState} from 'react'
+import {Dimensions, TouchableOpacity, Text, StyleSheet} from 'react-native'
+import {Card, Icon} from 'react-native-elements'
+import {useTheme} from '@react-navigation/native'
+import {inject, observer} from 'mobx-react'
+import SourceImageTitle from './SourceImageTitle'
+import NewsItem from '../domains/News/NewsItem'
+import { CardProps } from '../screens/ListScreen'
 
-function NewsCard(props) {
-  const {item, flatListRef, index, uiStore, selectedItemStore} = props;
-  const {colors} = useTheme();
-  const [isExpanded, setIsExpanded] = useState(false);
+function NewsCard(props: CardProps) {
+  const {flatListRef, index, uiStore, selectedItemStore} = props
+  const item = props.item as NewsItem
+  const {colors} = useTheme()
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const expandOrCollapse = () => {
-    flatListRef.current.scrollToIndex({
+    flatListRef.current!.scrollToIndex({
       animated: true,
       index: index,
       viewPosition: 0,
-    });
-    setIsExpanded(!isExpanded);
-  };
+    })
+    setIsExpanded(!isExpanded)
+  }
 
   const openModal = () => {
-    selectedItemStore.setSelectedItem(item, 'news');
-    uiStore.setModalVisible(true);
-  };
+    selectedItemStore!.setSelectedItem(item, 'news')
+    uiStore!.setModalVisible(true)
+  }
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() => expandOrCollapse()}
-      onLongPress={() => openModal()}>
+      onPress={expandOrCollapse}
+      onLongPress={openModal}>
       <Card
         wrapperStyle={
           isExpanded
             ? {
-                height: Dimensions.get('window').height - 150,
-              }
+              height: Dimensions.get('window').height - 150,
+            }
             : {}
         }
         containerStyle={[
@@ -62,7 +65,7 @@ function NewsCard(props) {
         />
       </Card>
     </TouchableOpacity>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -79,6 +82,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     flex: 1,
   },
-});
+})
 
-export default inject('uiStore', 'selectedItemStore')(observer(NewsCard));
+export default inject('uiStore', 'selectedItemStore')(observer(NewsCard))

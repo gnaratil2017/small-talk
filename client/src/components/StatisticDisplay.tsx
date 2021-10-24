@@ -1,9 +1,14 @@
-import React from 'react';
-import {View, Text, Platform, StyleSheet} from 'react-native';
-import {Icon} from 'react-native-elements';
+import React from 'react'
+import {View, Text, Platform, StyleSheet} from 'react-native'
+import {Icon} from 'react-native-elements'
 
-export default function StatisticDisplay(props) {
-  const {iconName, statistic} = props;
+interface Props {
+  iconName: string
+  statistic: string
+}
+
+const StatisticDisplay: React.FC<Props> = (props) => {
+  const {iconName, statistic} = props
 
   return (
     <View style={styles.row}>
@@ -12,11 +17,11 @@ export default function StatisticDisplay(props) {
         {!statistic
           ? 'disabled'
           : Platform.OS === 'android'
-          ? statistic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-          : statistic.toLocaleString()}
+            ? statistic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            : statistic.toLocaleString()}
       </Text>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -31,4 +36,6 @@ const styles = StyleSheet.create({
   disabled: {
     fontStyle: 'italic',
   },
-});
+})
+
+export default StatisticDisplay

@@ -1,13 +1,15 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.7.0
 jobs:
   lint:
-    executor: node/default
+    executor:
+      name: node/default
+      tag: "17.0.1"
     steps:
       - checkout
       - run: yarn install
       - run: yarn lint
-orbs:
-  node: 'circleci/node@3.0.0'
-version: 2.1
 workflows:
   build:
     jobs:

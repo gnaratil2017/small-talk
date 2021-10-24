@@ -27,6 +27,7 @@
 		8564CD5F9CED4D74895814DB /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9B7B6289E6748B4A14F1817 /* EvilIcons.ttf */; };
 		956DF3715ADB4479A263509D /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2448A52FF5894476981D89DF /* Fontisto.ttf */; };
 		9AF87CF48C90494C819854C0 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD469B635930485BA8904DF4 /* SimpleLineIcons.ttf */; };
+		9D67A84326FBF86400BD7C4E /* libswiftWebKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D67A84226FBF86400BD7C4E /* libswiftWebKit.tbd */; };
 		A989CA9643FC4692ACCEE389 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F96BC07C6A54B9C83CF06EB /* Zocial.ttf */; };
 		BA82F8CAE0DC4D0685E22657 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AC650497E5B4757BD7BE14E /* Foundation.ttf */; };
 		BB18032C064D471BB0BF1F8E /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5304538AF42147BB864A1FBF /* FontAwesome5_Brands.ttf */; };
@@ -88,6 +89,7 @@
 		5304538AF42147BB864A1FBF /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = client/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A0C4A6A837487D6317270F8 /* Pods-client-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-client-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-client-tvOSTests/Pods-client-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9D67A84226FBF86400BD7C4E /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 		B443E6DCA3C5386057470E40 /* libPods-client-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-client-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEFC3EB719FA46F4BD987401 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		CD469B635930485BA8904DF4 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D67A84326FBF86400BD7C4E /* libswiftWebKit.tbd in Frameworks */,
 				1AB2084DC2F9A7B7E4909093 /* libPods-client.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,6 +174,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D67A84226FBF86400BD7C4E /* libswiftWebKit.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				1E752ACC92220C03F202A0EC /* libPods-client.a */,
@@ -265,6 +269,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				F93D625B2611E53C41685417 /* [CP] Copy Pods Resources */,
+				275A108AE401375E22FB293D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -287,6 +292,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				C66AF1FF2CD7F1265AE21D83 /* [CP] Copy Pods Resources */,
+				C32A8F87E13A2974C16BF5BB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -342,7 +348,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -450,6 +456,24 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		275A108AE401375E22FB293D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-client-clientTests/Pods-client-clientTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-client-clientTests/Pods-client-clientTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -528,6 +552,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C32A8F87E13A2974C16BF5BB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-client/Pods-client-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-client/Pods-client-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C66AF1FF2CD7F1265AE21D83 /* [CP] Copy Pods Resources */ = {
@@ -802,6 +844,10 @@
 				INFOPLIST_FILE = client/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -829,6 +875,10 @@
 				INFOPLIST_FILE = client/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
