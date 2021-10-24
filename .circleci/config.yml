@@ -3,12 +3,10 @@ orbs:
   node: circleci/node@4.7.0
 jobs:
   lint:
-    executor: node/default
+    executor:
+      name: node/default
+      tag: "14.13.0"
     steps:
-      - node/install:
-          install-npm: false 
-          install-yarn: true 
-          lts: true
       - checkout
       - run: yarn install
       - run: yarn lint
