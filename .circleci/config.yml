@@ -2,23 +2,17 @@ version: 2.1
 orbs:
   node: circleci/node@4.7.0
 jobs:
-  node-install:
-    docker:
-      # replace with your preferred image
-      - image: cimg/base:stable
+  lint:
+    executor: node/default
     steps:
       - node/install:
           install-npm: false 
           install-yarn: true 
           lts: true
-  lint:
-    executor: node/default
-    steps:
       - checkout
       - run: yarn install
       - run: yarn lint
 workflows:
   build:
     jobs:
-      - node-install
       - lint
